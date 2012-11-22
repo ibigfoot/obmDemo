@@ -34,17 +34,25 @@ public class AccountOMImpl implements NotificationPort{
 	@RequestWrapper(localName = "notifications", targetNamespace = "http://soap.sforce.com/2005/09/outbound", className = "com.force.aus.wsdl.Notifications")
 	@ResponseWrapper(localName = "notificationsResponse", targetNamespace = "http://soap.sforce.com/2005/09/outbound", className = "com.force.aus.wsdl.NotificationsResponse")
 	public boolean notifications(
-			@WebParam(name = "OrganizationId", targetNamespace = "http://soap.sforce.com/2005/09/outbound") String arg0,
-			@WebParam(name = "ActionId", targetNamespace = "http://soap.sforce.com/2005/09/outbound") String arg1,
-			@WebParam(name = "SessionId", targetNamespace = "http://soap.sforce.com/2005/09/outbound") String arg2,
-			@WebParam(name = "EnterpriseUrl", targetNamespace = "http://soap.sforce.com/2005/09/outbound") String arg3,
-			@WebParam(name = "PartnerUrl", targetNamespace = "http://soap.sforce.com/2005/09/outbound") String arg4,
-			@WebParam(name = "Notification", targetNamespace = "http://soap.sforce.com/2005/09/outbound") List<AccountNotification> arg5) {
-		// TODO Auto-generated method stub
+			@WebParam(name = "OrganizationId", targetNamespace = "http://soap.sforce.com/2005/09/outbound") String orgId,
+			@WebParam(name = "ActionId", targetNamespace = "http://soap.sforce.com/2005/09/outbound") String actionId,
+			@WebParam(name = "SessionId", targetNamespace = "http://soap.sforce.com/2005/09/outbound") String sessionId,
+			@WebParam(name = "EnterpriseUrl", targetNamespace = "http://soap.sforce.com/2005/09/outbound") String enterpriseURL,
+			@WebParam(name = "PartnerUrl", targetNamespace = "http://soap.sforce.com/2005/09/outbound") String partnerURL,
+			@WebParam(name = "Notification", targetNamespace = "http://soap.sforce.com/2005/09/outbound") List<AccountNotification> notificationList) {
 		
-		logger.info("Have received a bunch of stuff this time");
-		logger.info("Have account notifications ["+(arg5 != null ? true : false) +"]");
-		return true;
+		
+		logger.info("Org ID ["+orgId+"]");
+		logger.info("Action ID ["+actionId+"]");
+		logger.info("Session ID ["+sessionId+"]");
+		logger.info("Enterprise URL ["+enterpriseURL+"]");
+		logger.info("Partner URL ["+partnerURL+"]");
+		
+		for(AccountNotification an : notificationList) {
+			logger.info("ID of object that has been changed ["+an.getId()+"]");
+		}
+		
+		return (notificationList != null ? true : false);
 	}
 
 	
