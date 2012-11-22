@@ -4,8 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.example</groupId>
 	<version>1.0-SNAPSHOT</version>
-	<name>helloworld</name>
-	<artifactId>helloworld</artifactId>
+	<name>Outbound Message Handler</name>
+	<artifactId>handleOutboundMessage</artifactId>
 	<packaging>jar</packaging>
 
 	<properties>
@@ -21,6 +21,7 @@
 			<url>file:${project.basedir}/repo</url>
 		</repository>
 	</repositories>
+
 	<dependencies>
 		<!-- Servlet API -->
 		<dependency>
@@ -44,7 +45,7 @@
 			<groupId>org.mortbay.jetty</groupId>
 			<artifactId>jsp-2.1-glassfish</artifactId>
 			<version>2.1.v20100127</version>
-		</dependency>
+		</dependency>	
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -64,16 +65,33 @@
 			<groupId>javax.jws</groupId>
 			<artifactId>jsr181-api</artifactId>
 			<version>1.0-MR1</version>		
-		</dependency>
-		<dependency>
+		</dependency>	
+		<!--  dependency>
 			<groupId>com.sun.xml.ws</groupId>
 			<artifactId>jaxws-rt</artifactId>
-			<version>2.1.1</version>		
-		</dependency>		
+			<version>2.2.6</version>
+		</dependency -->				
 	</dependencies>
-
 	<build>
 		<plugins>
+			<!--  plugin>
+				<groupId>org.jvnet.jax-ws-commons</groupId>
+				<artifactId>jaxws-maven-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>wsgen</goal>
+						</goals>
+						<configuration>
+							<sourceDestDir>
+								${basedir}/src/main/java
+							</sourceDestDir>
+						</configuration>
+					</execution>
+				</executions>		
+			</plugin -->		
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
