@@ -1,4 +1,4 @@
-package com.example;
+package com.force.aus.outboundMessage;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;

@@ -15,7 +15,7 @@
     
   <servlet>
     <servlet-name>hello</servlet-name>
-    <servlet-class>com.example.HelloServlet</servlet-class>
+    <servlet-class>com.force.aus.outboundMessage.HelloServlet</servlet-class>
   </servlet>
 	<servlet>
 		<servlet-name>jaxws-servlet</servlet-name>
