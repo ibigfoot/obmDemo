@@ -8,8 +8,11 @@
     <packaging>jar</packaging>
 
     <properties>
-        <java.version>1.6</java.version>
+        <java.version>1.7</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<wsdl.dir>${basedir}/src/main/resources</wsdl.dir>
+		<wsdl.file>${wsdl.dir}/enterprise.wsdl</wsdl.file>
+		<output.jar>${project.build.directory}/${project.artifactId}.jar</output.jar>     
     </properties>
 
     <dependencies>
@@ -36,10 +39,50 @@
             <artifactId>jsp-2.1-glassfish</artifactId>
             <version>2.1.v20100127</version>
         </dependency>	
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.2</version>
+		</dependency>    
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.2</version>
+		</dependency>  
+		<dependency>
+			<groupId>com.force.aus.wsdl</groupId>
+			<artifactId>accountOMWrapper</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
     </dependencies>
 
     <build>
         <plugins>
+			<plugin>
+				<groupId>org.jvnet.jax-ws-commons</groupId>
+				<artifactId>jaxws-maven-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>wsimport</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<packageName>com.force.aus.outboundMessage</packageName>
+					<sourceDestDir>${basedir}/src/main/java</sourceDestDir>
+					<wsdlDirectory>${wsdl.dir}</wsdlDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>			        
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>

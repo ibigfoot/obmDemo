@@ -9,10 +9,24 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
     
+    <listener>
+    	<listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
+    </listener>
+    
   <servlet>
     <servlet-name>hello</servlet-name>
     <servlet-class>com.example.HelloServlet</servlet-class>
   </servlet>
+	<servlet>
+		<servlet-name>jaxws-servlet</servlet-name>
+		<servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>jaxws-servlet</servlet-name>
+		<url-pattern>/OutboundMsgService</url-pattern>
+	</servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>hello</servlet-name>
