@@ -13,8 +13,6 @@ import com.force.aus.wsdl.Notifications;
 import com.force.aus.wsdl.NotificationsResponse;
 
 @WebService(targetNamespace="http://soap.sforce.com/2005/09/outbound")
-@SOAPBinding(style = Style.DOCUMENT, use=Use.ENCODED)
-
 public class AccountOMImpl {
 
 	private Logger logger;
