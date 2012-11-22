@@ -27,11 +27,8 @@ public class AccountOMImpl {
 	public NotificationsResponse handleOutboundMessage(Notifications notifications) {
 		
 		logger.info("Have received the notfication");
-		logger.info("OrgID ["+notifications.getOrganizationId()+"]");
-		logger.info("SessionID ["+notifications.getSessionId()+"]");
-		logger.info("PartnerURL ["+notifications.getPartnerUrl()+"]");
-		logger.info("ActionID ["+notifications.getActionId()+"]");
-		
+		logger.info("Notifications not null ["+(notifications != null ? true : false)+"]");
+
 		NotificationsResponse response = new NotificationsResponse();
 		response.setAck(Boolean.TRUE);
 		
