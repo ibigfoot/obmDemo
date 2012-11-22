@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.force.aus.wsdl.Notifications;
 import com.force.aus.wsdl.NotificationsResponse;
 
-@WebService(targetNamespace="http://soap.sforce.com/2005/09/outbound",portName="notifications")
+@WebService(targetNamespace="http://soap.sforce.com/2005/09/outbound")
 @SOAPBinding(style = Style.DOCUMENT, use=Use.ENCODED)
 
 public class AccountOMImpl {
@@ -23,7 +23,7 @@ public class AccountOMImpl {
 		logger = LoggerFactory.getLogger(AccountOMImpl.class);
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="notifications")
 	public NotificationsResponse handleOutboundMessage(Notifications notifications) {
 		
 		logger.info("Have received the notfication");
