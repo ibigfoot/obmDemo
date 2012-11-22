@@ -12,8 +12,9 @@ import org.slf4j.LoggerFactory;
 import com.force.aus.wsdl.Notifications;
 import com.force.aus.wsdl.NotificationsResponse;
 
-@WebService
+@WebService(targetNamespace="http://soap.sforce.com/2005/09/outbound",portName="notifications")
 @SOAPBinding(style = Style.DOCUMENT, use=Use.ENCODED)
+
 public class AccountOMImpl {
 
 	private Logger logger;
@@ -37,5 +38,6 @@ public class AccountOMImpl {
 		return response;
 		
 	}
+	
 	
 }
