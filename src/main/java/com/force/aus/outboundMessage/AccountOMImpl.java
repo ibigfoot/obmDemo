@@ -23,7 +23,7 @@ public class AccountOMImpl {
 		logger = LoggerFactory.getLogger(AccountOMImpl.class);
 	}
 	
-	public NotificationsResponse handleOutboundMessage(Notifications notifications) {
+	public NotificationsResponse notifications(Notifications notifications) {
 		
 		logger.info("Have received the notfication");
 		logger.info("Notifications not null ["+(notifications != null ? true : false)+"]");
