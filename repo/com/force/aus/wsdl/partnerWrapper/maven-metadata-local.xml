@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.force.aus.wsdl</groupId>
+  <artifactId>partnerWrapper</artifactId>
+  <versioning>
+    <versions>
+      <version>0.0.1-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20121123003231</lastUpdated>
+  </versioning>
+</metadata>
