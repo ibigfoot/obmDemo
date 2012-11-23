@@ -68,7 +68,7 @@
 		</dependency>		
 		<dependency>
 			<groupId>com.force.api</groupId>
-			<artifactId>force-wsc</artifactId>
+			<artifactId>force-partner-api</artifactId>
 			<version>26.0.0</version>
 		</dependency>		
 		<dependency>
