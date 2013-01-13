@@ -9,9 +9,13 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
 import javax.jws.soap.SOAPBinding.Use;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
+import org.hibernate.ejb.EntityManagerFactoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,13 +48,19 @@ public class AccountOMImpl implements NotificationPort{
 			@WebParam(name = "Notification", targetNamespace = "http://soap.sforce.com/2005/09/outbound") List<AccountNotification> notificationList) {
 		
 		
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("obmpu");
+		EntityManager entityManager = emf.createEntityManager();
+		
+		entityManager.close();
+		emf.close();
+		
 		logger.info("Org ID ["+orgId+"]");
 		logger.info("Action ID ["+actionId+"]");
 		logger.info("Session ID ["+sessionId+"]");
 		logger.info("Enterprise URL ["+enterpriseURL+"]");
 		logger.info("Partner URL ["+partnerURL+"]");
 		
-		process(partnerURL, sessionId);
+		//process(partnerURL, sessionId);
 		
 		for(AccountNotification an : notificationList) {
 			logger.info("ID of object that has been changed ["+an.getId()+"]");
