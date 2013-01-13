@@ -9,12 +9,23 @@
 
 	<package name="com.force.aus.outboundMessage" extends="struts-default">
 
+		<result-types>
+			<result-type name="tiles"
+				class="org.apache.struts2.views.tiles.TilesResult" />
+		</result-types>
+
+		<action name="index"
+			class="com.force.aus.outboundMessage.actions.HomePageAction" method="execute">
+			<result>/obm.jsp</result>
+		</action>
+
 		<action name="struts">
 			<result>/struts.jsp</result>
 		</action>
-		<action name="hello" class="com.force.aus.outboundMessage.actions.StrutsAction" method="execute">
-    		<result name="success">/action.jsp</result>
-  		</action>
+		<action name="hello"
+			class="com.force.aus.outboundMessage.actions.StrutsAction" method="execute">
+			<result name="success">/action.jsp</result>
+		</action>
 	</package>
 
 </struts>

@@ -1,13 +1,12 @@
 package com.force.aus.outboundMessage;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
-import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 import org.eclipse.jetty.plus.jndi.Resource;
-import org.eclipse.jetty.plus.webapp.EnvConfiguration;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.postgresql.ds.PGSimpleDataSource;
 import org.slf4j.Logger;
@@ -22,6 +21,8 @@ import org.slf4j.LoggerFactory;
  */
 public class Main {
     
+	private static Logger LOG;
+	
 	private static String[] configClasses = {
 		 "org.eclipse.jetty.webapp.WebInfConfiguration",
 		  "org.eclipse.jetty.webapp.WebXmlConfiguration",
@@ -38,7 +39,7 @@ public class Main {
      */
     public static void main(String[] args) throws Exception{
     	
-    	Logger logger = LoggerFactory.getLogger(Main.class);
+    	LOG = LoggerFactory.getLogger(Main.class);
         String webappDirLocation = "src/main/webapp/";
         
         //The port that we should run on can be set into an environment variable
@@ -57,32 +58,8 @@ public class Main {
         root.setContextPath("/");
         root.setDescriptor(webappDirLocation+"/WEB-INF/web.xml");
         root.setResourceBase(webappDirLocation);
-
+        root.setAttribute("obmDS", getJNDIResource(System.getenv("DATABASE_URL")));
         
-        //configure database properties
-        URI dbUri = new URI(System.getenv("DATABASE_URL"));
-
-        String username = dbUri.getUserInfo().split(":")[0];
-        String password = dbUri.getUserInfo().split(":")[1];
-        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + "/" + dbUri.getPath();
-        
-        logger.info("DBURI ["+dbUri+"]");
-        logger.info("Username ["+username+"]");
-        logger.info("Password ["+password+"]");
-        logger.info("Host ["+dbUri.getHost()+"]");
-        logger.info("Port ["+dbUri.getPort()+"]");
-        logger.info("Path ["+dbUri.getPath()+"]");
-        
-        logger.info("DBRUL ["+dbUrl+"]");
-        
-        PGSimpleDataSource pgDS = new PGSimpleDataSource();
-        pgDS.setDatabaseName(dbUri.getPath());
-        pgDS.setUser(username);
-        pgDS.setPassword(password);
-        pgDS.setServerName(dbUri.getHost());
-        pgDS.setPortNumber(dbUri.getPort());
-        
-        Resource resource = new Resource("jdbc/obmDS", pgDS);
         
         //Parent loader priority is a class loader setting that Jetty accepts.
         //By default Jetty will behave like most web containers in that it will
@@ -90,11 +67,34 @@ public class Main {
         //container. Setting parent loader priority to true changes this behavior.
         //Read more here: http://wiki.eclipse.org/Jetty/Reference/Jetty_Classloading
         root.setParentLoaderPriority(true);
-        
+
         server.setHandler(root);
-        
         server.start();
         server.join();   
+    }
+    
+    private static Resource getJNDIResource(String databaseURL) throws URISyntaxException, NamingException {
+    	
+    	URI dbUri = new URI(databaseURL);
+    	String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
+        
+        LOG.info("DBURI ["+dbUri+"]");
+        LOG.info("Username ["+username+"]");
+        LOG.info("Password ["+password+"]");
+        LOG.info("Host ["+dbUri.getHost()+"]");
+        LOG.info("Port ["+dbUri.getPort()+"]");
+        LOG.info("Path ["+dbUri.getPath()+"]");
+        
+        PGSimpleDataSource pgDS = new PGSimpleDataSource();
+        pgDS.setDatabaseName(dbUri.getPath().replaceAll("/", ""));
+        pgDS.setUser(username);
+        pgDS.setPassword(password);
+        pgDS.setServerName(dbUri.getHost());
+        pgDS.setPortNumber(dbUri.getPort());
+        
+        return new Resource("jdbc/obmDS", pgDS);
+        
     }
 
 }

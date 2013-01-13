@@ -29,7 +29,9 @@
 			<p><a href="instructions.jsp"/>Instructions</a> will help you setup your Salesforce Instance and show you how to use this.</p>
 			<p><a href="https://github.com/ibigfoot/ForceAPIClient" target="_blank">Code</a> can be found GitHub</p>
 			<div id="actionTable">
-				<input type="button" value="Update" id="updateTableBtn"/>
+				<s:iterator value="messages" var="message">
+					<s:property value="#message.id"/>
+				</s:iterator>
 			</div>
 		</div>
 		<div id="footer">

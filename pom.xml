@@ -40,6 +40,13 @@
 			<artifactId>struts-annotations</artifactId>
 			<version>1.0.5</version>
 		</dependency>
+		<!-- Apache Tiles -->
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-tiles-plugin</artifactId>
+			<version>2.3.8</version>
+			<scope>compile</scope>
+		</dependency>
 		<!-- Jetty -->
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
