@@ -29,13 +29,6 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<!-- Hello Servlet for initial testing, needs to be removed. -->
-	<servlet>
-		<servlet-name>hello</servlet-name>
-		<servlet-class>com.force.aus.outboundMessage.HelloServlet</servlet-class>
-	</servlet>
-
-
 	<!-- JaxWS -->
 	<servlet>
 		<servlet-name>jaxws-servlet</servlet-name>
@@ -46,12 +39,6 @@
 	<servlet-mapping>
 		<servlet-name>jaxws-servlet</servlet-name>
 		<url-pattern>/OutboundMsgService</url-pattern>
-	</servlet-mapping>
-
-	<!-- remove this testing servlet -->
-	<servlet-mapping>
-		<servlet-name>hello</servlet-name>
-		<url-pattern>/hello</url-pattern>
 	</servlet-mapping>
 
 	<!-- Datasource (used in persistence.xml) -->
