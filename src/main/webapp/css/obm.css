@@ -49,3 +49,18 @@ body {
     text-align: center;
     line-height: 20px;
 }
+
+.obmTable {
+	border: 1px solid black;
+	width:90%;
+	table-layout: fixed;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.obmCell {
+	font-size: 12px;
+	border: 1px solid grey;
+	word-wrap:break-word;
+	text-align: center;
+}

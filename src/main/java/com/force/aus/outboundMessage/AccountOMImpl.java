@@ -1,5 +1,6 @@
 package com.force.aus.outboundMessage;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import javax.xml.ws.handler.MessageContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.force.aus.outboundMessage.entity.ModifiedObject;
 import com.force.aus.outboundMessage.entity.ReceivedMessage;
 import com.force.aus.outboundMessage.listeners.EMFListener;
 import com.force.aus.wsdl.AccountNotification;
@@ -61,18 +63,22 @@ public class AccountOMImpl implements NotificationPort{
 		HttpServletRequest request = (HttpServletRequest)context.getMessageContext().get(MessageContext.SERVLET_REQUEST);
 		
 		entityManager.getTransaction().begin();
+		ReceivedMessage message = new ReceivedMessage();
+		message.setActionId(actionId);
+		message.setDateReceived(Calendar.getInstance().getTime());
+		message.setEnterpriseURL(enterpriseURL);
+		message.setOrgId(orgId);
+		message.setPartnerURL(partnerURL);
+		message.setSessionId(sessionId);
+		message.setXmlMessage((String)request.getAttribute("RAW_XML"));
+		entityManager.persist(message);
+		List<ModifiedObject> modifiedObjects = new ArrayList<ModifiedObject>();
 		for(AccountNotification an : notificationList) {
-			ReceivedMessage message = new ReceivedMessage();
-			message.setActionId(actionId);
-			message.setDateReceived(Calendar.getInstance().getTime());
-			message.setEnterpriseURL(enterpriseURL);
-			message.setObjectId(an.getId());
-			message.setOrgId(orgId);
-			message.setPartnerURL(partnerURL);
-			message.setSessionId(sessionId);
-			message.setXmlMessage((String)request.getAttribute("RAW_XML"));
-			entityManager.persist(message);
+			ModifiedObject mo= new ModifiedObject();
+			mo.setObjectId(an.getSObject().getId());
+			modifiedObjects.add(mo);
 		}
+		message.setModifiedObjects(modifiedObjects);
 		entityManager.getTransaction().commit();
 		entityManager.close();
 		

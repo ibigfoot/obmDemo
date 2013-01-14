@@ -2,13 +2,17 @@ package com.force.aus.outboundMessage.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Loader;
 
 
 @Entity
@@ -23,10 +27,12 @@ public class ReceivedMessage implements Serializable {
 	private String sessionId;
 	private String enterpriseURL;
 	private String partnerURL;
-	private String objectId;
 	private Date dateReceived;
 	@Lob
 	private String xmlMessage;
+	
+	@OneToMany(fetch=FetchType.EAGER)
+	private List<ModifiedObject> modifiedObjects;
 	
 	public long getId() {
 		return id;
@@ -64,12 +70,6 @@ public class ReceivedMessage implements Serializable {
 	public void setPartnerURL(String partnerURL) {
 		this.partnerURL = partnerURL;
 	}
-	public String getObjectId() {
-		return objectId;
-	}
-	public void setObjectId(String objectId) {
-		this.objectId = objectId;
-	}
 	public Date getDateReceived() {
 		return dateReceived;
 	}
@@ -81,6 +81,12 @@ public class ReceivedMessage implements Serializable {
 	}
 	public void setXmlMessage(String xmlMessage) {
 		this.xmlMessage = xmlMessage;
+	}
+	public List<ModifiedObject> getModifiedObjects() {
+		return modifiedObjects;
+	}
+	public void setModifiedObjects(List<ModifiedObject> modifiedObjects) {
+		this.modifiedObjects = modifiedObjects;
 	}
 	@Override
 	public int hashCode() {
@@ -94,12 +100,14 @@ public class ReceivedMessage implements Serializable {
 				+ ((enterpriseURL == null) ? 0 : enterpriseURL.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result
-				+ ((objectId == null) ? 0 : objectId.hashCode());
+				+ ((modifiedObjects == null) ? 0 : modifiedObjects.hashCode());
 		result = prime * result + ((orgId == null) ? 0 : orgId.hashCode());
 		result = prime * result
 				+ ((partnerURL == null) ? 0 : partnerURL.hashCode());
 		result = prime * result
 				+ ((sessionId == null) ? 0 : sessionId.hashCode());
+		result = prime * result
+				+ ((xmlMessage == null) ? 0 : xmlMessage.hashCode());
 		return result;
 	}
 	@Override
@@ -128,10 +136,10 @@ public class ReceivedMessage implements Serializable {
 			return false;
 		if (id != other.id)
 			return false;
-		if (objectId == null) {
-			if (other.objectId != null)
+		if (modifiedObjects == null) {
+			if (other.modifiedObjects != null)
 				return false;
-		} else if (!objectId.equals(other.objectId))
+		} else if (!modifiedObjects.equals(other.modifiedObjects))
 			return false;
 		if (orgId == null) {
 			if (other.orgId != null)
@@ -148,9 +156,14 @@ public class ReceivedMessage implements Serializable {
 				return false;
 		} else if (!sessionId.equals(other.sessionId))
 			return false;
+		if (xmlMessage == null) {
+			if (other.xmlMessage != null)
+				return false;
+		} else if (!xmlMessage.equals(other.xmlMessage))
+			return false;
 		return true;
 	}
-	
-	
 
+	
+	
 }
