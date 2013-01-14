@@ -75,6 +75,7 @@ public class Main {
     
     private static Resource getJNDIResource(String databaseURL) throws URISyntaxException, NamingException {
     	
+    	// database URL should be postgres://username:password@host:port/schema
     	URI dbUri = new URI(databaseURL);
     	String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":")[1];

@@ -1,7 +1,10 @@
 package com.force.aus.outboundMessage;
 
+import java.util.Calendar;
 import java.util.List;
 
+import javax.annotation.Resource;
+import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -10,25 +13,28 @@ import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
 import javax.jws.soap.SOAPBinding.Use;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
+import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.handler.MessageContext;
 
-import org.hibernate.ejb.EntityManagerFactoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.force.aus.outboundMessage.entity.ReceivedMessage;
+import com.force.aus.outboundMessage.listeners.EMFListener;
 import com.force.aus.wsdl.AccountNotification;
 import com.force.aus.wsdl.NotificationPort;
-import com.sforce.soap.partner.PartnerConnection;
-import com.sforce.ws.ConnectorConfig;
 
 @WebService(targetNamespace="http://soap.sforce.com/2005/09/outbound")
 @SOAPBinding(style = Style.DOCUMENT, use=Use.LITERAL)
-
+@HandlerChain(file="handler-chain.xml")
 public class AccountOMImpl implements NotificationPort{
 
+	@Resource
+	private WebServiceContext context;
+	
 	private Logger logger;
 	
 	public AccountOMImpl() {
@@ -48,51 +54,30 @@ public class AccountOMImpl implements NotificationPort{
 			@WebParam(name = "Notification", targetNamespace = "http://soap.sforce.com/2005/09/outbound") List<AccountNotification> notificationList) {
 		
 		
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("obmpu");
-		EntityManager entityManager = emf.createEntityManager();
+		EntityManager entityManager = EMFListener.createEntityManager();
+		logger.info("Webservice handling of Outbound Message using class {}", AccountOMImpl.class);
+		logger.info("Processing {} changed objects for Org {}. Have SessionId {}", notificationList.size(), orgId, sessionId);
 		
-		entityManager.close();
-		emf.close();
+		HttpServletRequest request = (HttpServletRequest)context.getMessageContext().get(MessageContext.SERVLET_REQUEST);
 		
-		logger.info("Org ID ["+orgId+"]");
-		logger.info("Action ID ["+actionId+"]");
-		logger.info("Session ID ["+sessionId+"]");
-		logger.info("Enterprise URL ["+enterpriseURL+"]");
-		logger.info("Partner URL ["+partnerURL+"]");
-		
-		//process(partnerURL, sessionId);
-		
+		entityManager.getTransaction().begin();
 		for(AccountNotification an : notificationList) {
-			logger.info("ID of object that has been changed ["+an.getId()+"]");
+			ReceivedMessage message = new ReceivedMessage();
+			message.setActionId(actionId);
+			message.setDateReceived(Calendar.getInstance().getTime());
+			message.setEnterpriseURL(enterpriseURL);
+			message.setObjectId(an.getId());
+			message.setOrgId(orgId);
+			message.setPartnerURL(partnerURL);
+			message.setSessionId(sessionId);
+			message.setXmlMessage((String)request.getAttribute("RAW_XML"));
+			entityManager.persist(message);
 		}
+		entityManager.getTransaction().commit();
+		entityManager.close();
 		
+		logger.info("Persisted {} objects",notificationList.size());
+
 		return (notificationList != null ? true : false);
 	}
-
-	
-	private void process(String partnerURL, String sessionID) {
-		
-		PartnerConnection connection = null;
-		
-		try {
-			ConnectorConfig config = new ConnectorConfig();
-			config.setSessionId(sessionID);
-			config.setServiceEndpoint(partnerURL);
-			config.setCompression(true);
-			config.setTraceMessage(true);
-			
-			connection = new PartnerConnection(config);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				connection.logout();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-	}
-	
 }

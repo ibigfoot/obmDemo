@@ -6,7 +6,7 @@
 	<div id="headerContainer">
 		<div id="heading">Outbound Message Handler</div>
 		<div id="breadcrumb">
-			<a href="/index.action">Home</a> -> <tiles:getAsString name="page"/>
+			<a href="/app/index.action">Home</a> -> <tiles:getAsString name="page"/>
 		</div>
 	</div>
 </div>

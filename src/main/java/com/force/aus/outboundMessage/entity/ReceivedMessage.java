@@ -3,10 +3,12 @@ package com.force.aus.outboundMessage.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 
 @Entity
@@ -23,6 +25,8 @@ public class ReceivedMessage implements Serializable {
 	private String partnerURL;
 	private String objectId;
 	private Date dateReceived;
+	@Lob
+	private String xmlMessage;
 	
 	public long getId() {
 		return id;
@@ -72,7 +76,12 @@ public class ReceivedMessage implements Serializable {
 	public void setDateReceived(Date dateReceived) {
 		this.dateReceived = dateReceived;
 	}
-
+	public String getXmlMessage() {
+		return xmlMessage;
+	}
+	public void setXmlMessage(String xmlMessage) {
+		this.xmlMessage = xmlMessage;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -141,5 +150,7 @@ public class ReceivedMessage implements Serializable {
 			return false;
 		return true;
 	}
+	
+	
 
 }

@@ -11,6 +11,7 @@
 			<th>ID</th>
 			<th>OrgID</th>
 			<th>SessionID</th>
+			<th>DateReceived</th>
 			<th>Actions</th>
 		</tr>
 		<s:iterator value="messages" var="message">
@@ -18,16 +19,20 @@
 				<td><s:property value="#message.id"/></td>
 				<td><s:property value="#message.orgId"/></td>
 				<td><s:property value="#message.sessionId"/></td>
+				<td><s:property value="#message.dateReceived"/></td>
 				<td>
-					<s:url action="edit" includeParams="get" id="edit">
+					<s:url action="app/edit" includeParams="get" id="edit">
 						<s:param name="messageId" value="#message.id"/>
 					</s:url><s:a href="%{edit}">Edit</s:a> &nbsp;
-					<s:url action="view" includeParams="get" id="view">
+					<s:url action="app/view" includeParams="get" id="view">
 						<s:param name="messageId" value="#message.id"/>
 					</s:url><s:a href="%{view}">View</s:a> &nbsp;
-					<s:url action="seeobm" includeParams="get" id="seeobm">
+					<s:url action="app/showobm" includeParams="get" id="showobm">
 						<s:param name="messageId" value="#message.id"/>
-					</s:url><s:a href="%{seeobm}">Raw OBM</s:a>
+					</s:url><s:a href="%{showobm}">Raw OBM</s:a>
+					<s:url action="app/delete" includeParams="get" id="delete">
+						<s:param name="messageId" value="#message.id"/>
+					</s:url><s:a href="%{delete}">Delete OBM</s:a>
 				</td>
 			</tr>
 		</s:iterator>

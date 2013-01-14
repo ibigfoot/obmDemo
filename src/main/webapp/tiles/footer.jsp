@@ -1,1 +1,1 @@
-Powered by <a href="http://www.heroku.com"><img src="images/heroku.png" alt="Heroku" height="20px" align="top"/></a>
+Powered by <a href="http://www.heroku.com"><img src="/images/heroku.png" alt="Heroku" height="20px" align="top"/></a>

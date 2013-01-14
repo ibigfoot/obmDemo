@@ -6,8 +6,8 @@
 	<head>
 		<meta charset="utf-8" />
 		<title><tiles:getAsString name="title" /></title>
-		<link href="css/obm.css" rel="stylesheet" type="text/css" />
-		<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+		<link href="/css/obm.css" rel="stylesheet" type="text/css" />
+		<link href="https://nav.heroku.com/images/logos/favicon.ico" rel="icon" type="image/x-icon">
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	</head>
 	<body>

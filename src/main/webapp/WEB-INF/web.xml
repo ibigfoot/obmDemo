@@ -18,6 +18,10 @@
 		<listener-class>org.apache.struts2.tiles.StrutsTilesListener</listener-class>
 	</listener>
 
+	<!-- EntityManagerFactory listener -->
+	<listener>
+		<listener-class>com.force.aus.outboundMessage.listeners.EMFListener</listener-class>
+	</listener>
 	<!-- Struts filter (MVC) -->
 	<filter>
 		<filter-name>struts2</filter-name>
@@ -26,9 +30,18 @@
 
 	<filter-mapping>
 		<filter-name>struts2</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/app/*</url-pattern>
 	</filter-mapping>
 
+	<!-- Filter for capturing XML off the wire for OBM -->
+	<filter>
+		<filter-name>xmlFilter</filter-name>
+		<filter-class>com.force.aus.outboundMessage.filters.WebServiceFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>xmlFilter</filter-name>
+		<url-pattern>/OutboundMsgService</url-pattern>
+	</filter-mapping>
 	<!-- JaxWS -->
 	<servlet>
 		<servlet-name>jaxws-servlet</servlet-name>
