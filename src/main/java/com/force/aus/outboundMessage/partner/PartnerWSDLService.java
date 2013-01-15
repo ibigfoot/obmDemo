@@ -1,5 +1,6 @@
 package com.force.aus.outboundMessage.partner;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,13 +44,14 @@ public class PartnerWSDLService {
 		logger = LoggerFactory.getLogger(PartnerWSDLService.class);
 		logger.info("Attempting to conect to org {} using URL {}", message.getOrgId(), message.getPartnerURL());
 		UserInfo info = new UserInfo();
+		WSBindingProvider wsBindingProvider = null;
 		
 		try { // we shouldn't need login because SessionID should be valid.
 			
 			URL url = this.getClass().getResource(WSDL_NAME);
 			SforceService service = new SforceService(url, new QName(QNAME_NAMESPACE, QNAME_LOCAL_PART));
 			Soap port = service.getSoap();
-			WSBindingProvider wsBindingProvider = (WSBindingProvider)port;
+			wsBindingProvider = (WSBindingProvider)port;
 			Map<String, Object> requestContext = wsBindingProvider.getRequestContext();
 			requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, message.getPartnerURL());
 			Map<String, List<String>> httpHeaders = new HashMap<String, List<String>>();
@@ -79,6 +81,14 @@ public class PartnerWSDLService {
 		} catch (JAXBException jbe) {
 			logger.error("Caught a JAXBException trying to connect {}", jbe.getMessage());
 			jbe.printStackTrace();
+		} finally {
+			try {
+				if(wsBindingProvider != null) 
+					wsBindingProvider.close();
+			} catch (IOException ioe) {
+				logger.error("IOException while trying to close the wsBindingProvider {}", ioe.getMessage());
+				ioe.printStackTrace();
+			}
 		}
 		
 		return info;
