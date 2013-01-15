@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.force.aus.outboundMessage.entity.ReceivedMessage;
 
 
-public class EditOBMAction extends BaseOBMAction {
+public class ViewOBMAction extends BaseOBMAction {
 
 	private Logger logger;
 	private ReceivedMessage message;
@@ -18,8 +18,8 @@ public class EditOBMAction extends BaseOBMAction {
 	
 	public String execute() {
 	
-		logger = LoggerFactory.getLogger(EditOBMAction.class);
-		logger.info("Entered action {} for message {}", EditOBMAction.class, messageId);
+		logger = LoggerFactory.getLogger(ViewOBMAction.class);
+		logger.info("Entered action {} for message {}", ViewOBMAction.class, messageId);
 		EntityManager em = getEntityManager();
 		
 		em.getTransaction().begin();

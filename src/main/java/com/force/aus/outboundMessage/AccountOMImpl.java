@@ -1,6 +1,5 @@
 package com.force.aus.outboundMessage;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
@@ -28,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import com.force.aus.outboundMessage.entity.ModifiedObject;
 import com.force.aus.outboundMessage.entity.ReceivedMessage;
 import com.force.aus.outboundMessage.listeners.EMFListener;
+import com.force.aus.outboundMessage.partner.PartnerWSDLService;
 import com.force.aus.wsdl.AccountNotification;
 import com.force.aus.wsdl.NotificationPort;
 
@@ -86,6 +86,9 @@ public class AccountOMImpl implements NotificationPort{
 		entityManager.persist(message);
 		entityManager.getTransaction().commit();
 		entityManager.close();
+		
+		PartnerWSDLService service = new PartnerWSDLService();
+		service.getUserInfo(message);
 		
 		logger.info("Persisted {} objects",notificationList.size());
 
