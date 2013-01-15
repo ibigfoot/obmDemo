@@ -87,8 +87,8 @@ public class AccountOMImpl implements NotificationPort{
 		entityManager.getTransaction().commit();
 		entityManager.close();
 		
-//		PartnerWSDLService service = new PartnerWSDLService();
-//		service.getUserInfo(message);
+		PartnerWSDLService service = new PartnerWSDLService();
+		service.getUserInfo(message);
 		
 		logger.info("Persisted {} objects",notificationList.size());
 

@@ -49,11 +49,22 @@ public class PartnerWSDLService {
 		try { // we shouldn't need login because SessionID should be valid.
 			
 			URL url = this.getClass().getResource(WSDL_NAME);
+			if (url == null) {
+				throw new RuntimeException("Unable to find WSDL ["+WSDL_NAME+"] on classpath");
+			} else {
+				logger.info("URL {}", url.getPath());
+			}
 			SforceService service = new SforceService(url, new QName(QNAME_NAMESPACE, QNAME_LOCAL_PART));
 			Soap port = service.getSoap();
+			
+			JAXBContext jaxbContext = JAXBContext.newInstance("com.force.aus.soap.partner");
+
+//String sessionId = "00D90000000hOVK!AQYAQE9lU_VlAV.73Yrj33ku2LQ5BK3VCngVwPxW9QC0MvOcXvt45x8Dif7_k1.vr4Q0td.JoHRTRZbb10DmJyxJp7Op.hdd";
+//String partnerId = "https://ap1-api.salesforce.com/services/Soap/u/26.0/00D90000000hOVK";
+			
 			wsBindingProvider = (WSBindingProvider)port;
 			Map<String, Object> requestContext = wsBindingProvider.getRequestContext();
-			requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, message.getPartnerURL());
+			requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, message.getPartnerURL() /*partnerId*/);
 			Map<String, List<String>> httpHeaders = new HashMap<String, List<String>>();
 			httpHeaders.put("Content-Encoding", Collections.singletonList("gzip"));
 			httpHeaders.put("Accept-Encoding", Collections.singletonList("gzip"));
@@ -62,9 +73,8 @@ public class PartnerWSDLService {
 			List<Header> headers = new ArrayList<Header>();
 			
 			SessionHeader sessionHeader = new SessionHeader();
-			sessionHeader.setSessionId(message.getSessionId());
-			
-			JAXBContext jaxbContext = JAXBContext.newInstance("com.force.aus.soap");
+			sessionHeader.setSessionId(message.getSessionId() /*sessionId*/);
+
 			headers.add(Headers.create((JAXBRIContext)jaxbContext, sessionHeader));
 			
 			wsBindingProvider.setOutboundHeaders(headers);
