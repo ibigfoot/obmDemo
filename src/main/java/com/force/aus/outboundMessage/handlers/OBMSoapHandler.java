@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Set;
 
-import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPException;
@@ -16,14 +15,11 @@ import javax.xml.ws.handler.soap.SOAPMessageContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.force.aus.outboundMessage.listeners.EMFListener;
-
 
 
 public class OBMSoapHandler implements SOAPHandler<SOAPMessageContext>{
 
 	private Logger logger;
-	private EntityManager em;
 
 	@Override
 	public boolean handleMessage(SOAPMessageContext context) {
@@ -33,7 +29,6 @@ public class OBMSoapHandler implements SOAPHandler<SOAPMessageContext>{
 			SOAPMessage message = context.getMessage();
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			message.writeTo(out);			
-			em = EMFListener.createEntityManager();
 			HttpServletRequest request = (HttpServletRequest)context.get(SOAPMessageContext.SERVLET_REQUEST);
 			request.setAttribute("RAW_XML", out.toString());
 			
@@ -43,11 +38,7 @@ public class OBMSoapHandler implements SOAPHandler<SOAPMessageContext>{
 		} catch (IOException ioe) {
 			logger.error("Have caught an IOException while writing XML payload");
 			ioe.printStackTrace();
-		} finally {
-			if(em != null && em.isOpen()) {
-				em.close();
-			}
-		}
+		} 
 		return true;
 	}
 
