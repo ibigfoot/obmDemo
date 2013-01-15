@@ -96,11 +96,12 @@
 			<artifactId>accountOMWrapper</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<!--  
 		<dependency>
 			<groupId>com.force.aus.wsdl</groupId>
 			<artifactId>partnerWrapper</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>com.force.api</groupId>
 			<artifactId>force-partner-api</artifactId>

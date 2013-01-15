@@ -10,10 +10,10 @@
 		<put-attribute name="footer" value="/tiles/footer.jsp" />
 	</definition>
 
-	<definition name="edit.tiles" template="/layouts/standard.jsp">
+	<definition name="view.tiles" template="/layouts/standard.jsp">
 		<put-attribute name="title" value="OBM Handler - Edit Record" />
 		<put-attribute name="header" value="/tiles/header.jsp" />
-		<put-attribute name="mainContent" value="/tiles/editobm.jsp" />
+		<put-attribute name="mainContent" value="/tiles/view.jsp" />
 		<put-attribute name="footer" value="/tiles/footer.jsp" />
 	</definition>
 	
@@ -23,4 +23,11 @@
 		<put-attribute name="mainContent" value="/tiles/rawXml.jsp" />
 		<put-attribute name="footer" value="/tiles/footer.jsp" />
 	</definition>
+	<definition name="showObject.tiles" template="/layouts/standard.jsp">
+		<put-attribute name="title" value="OBM Handler - Raw XML" />
+		<put-attribute name="header" value="/tiles/header.jsp" />
+		<put-attribute name="mainContent" value="/tiles/object.jsp" />
+		<put-attribute name="footer" value="/tiles/footer.jsp" />
+	</definition>	
+	
 </tiles-definitions>

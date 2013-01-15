@@ -20,7 +20,7 @@
 		</action>
 		<action name="edit"
 			class="com.force.aus.outboundMessage.actions.ViewOBMAction" method="execute">
-			<result name="success" type="tiles">edit.tiles</result>
+			<result name="success" type="tiles">view.tiles</result>
 		</action>
 		<action name="delete"
 			class="com.force.aus.outboundMessage.actions.DeleteOBMAction" method="execute">
@@ -31,6 +31,10 @@
 		<action name="showobm"
 			class="com.force.aus.outboundMessage.actions.ViewOBMAction" method="execute">
 			<result name="success" type="tiles">showXml.tiles</result>
+		</action>
+		<action name="showObject" 
+			class="com.force.aus.outboundMessage.actions.ViewObjectAction" method="execute">
+			<result name="success" type="tiles">showObject.tiles</result>
 		</action>
 	</package>
 

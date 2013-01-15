@@ -8,7 +8,10 @@ import org.slf4j.LoggerFactory;
 
 import com.force.aus.outboundMessage.entity.ReceivedMessage;
 import com.force.aus.outboundMessage.entity.UserInfo;
+import com.force.aus.outboundMessage.exceptions.PartnerAPIException;
 import com.force.aus.outboundMessage.partner.PartnerWSDLService;
+import com.sforce.soap.partner.GetUserInfoResult;
+import com.sforce.ws.ConnectionException;
 
 
 public class ViewOBMAction extends BaseOBMAction {
@@ -16,8 +19,9 @@ public class ViewOBMAction extends BaseOBMAction {
 	private Logger logger;
 	private ReceivedMessage message;
 	private String messageId;
-	private UserInfo userInfo;
-	
+	private GetUserInfoResult userInfo;
+	private String errorMessage;
+
 	public String execute() {
 	
 		logger = LoggerFactory.getLogger(ViewOBMAction.class);
@@ -38,8 +42,14 @@ public class ViewOBMAction extends BaseOBMAction {
 	 * Uses the SF Partner API to find out user information
 	 */
 	private void populateUserInfo() {
-		PartnerWSDLService service = new PartnerWSDLService();
-		userInfo = service.getUserInfo(message);
+		try {
+			PartnerWSDLService service = new PartnerWSDLService();
+			userInfo = service.getUserInfo(message);
+		} catch (ConnectionException ce) {
+			errorMessage = "The Partner API interface failed to retrieve the necessary details.\n"+ce.getMessage();
+			logger.warn("The partner API failed to respond correctly {}", ce.getMessage());
+			ce.printStackTrace();
+		}
 	}
 	
 	public ReceivedMessage getMessage() {
@@ -54,7 +64,7 @@ public class ViewOBMAction extends BaseOBMAction {
 		this.messageId = messageId;
 	}
 	
-	public UserInfo getUserInfo() {
+	public GetUserInfoResult getUserInfo() {
 		return userInfo;
 	}
 	
