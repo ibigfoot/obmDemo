@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.force.aus.outboundMessage.entity.ReceivedMessage;
+import com.force.aus.outboundMessage.entity.UserInfo;
+import com.force.aus.outboundMessage.partner.PartnerWSDLService;
 
 
 public class ViewOBMAction extends BaseOBMAction {
@@ -14,7 +16,7 @@ public class ViewOBMAction extends BaseOBMAction {
 	private Logger logger;
 	private ReceivedMessage message;
 	private String messageId;
-	
+	private UserInfo userInfo;
 	
 	public String execute() {
 	
@@ -28,7 +30,16 @@ public class ViewOBMAction extends BaseOBMAction {
 		em.getTransaction().commit();
 		em.close();
 		
+		populateUserInfo();
+		
 		return SUCCESS;		
+	}
+	/*
+	 * Uses the SF Partner API to find out user information
+	 */
+	private void populateUserInfo() {
+		PartnerWSDLService service = new PartnerWSDLService();
+		userInfo = service.getUserInfo(message);
 	}
 	
 	public ReceivedMessage getMessage() {
@@ -43,6 +54,9 @@ public class ViewOBMAction extends BaseOBMAction {
 		this.messageId = messageId;
 	}
 	
+	public UserInfo getUserInfo() {
+		return userInfo;
+	}
 	
 	
 }

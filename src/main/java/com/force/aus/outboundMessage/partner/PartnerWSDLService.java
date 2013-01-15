@@ -23,6 +23,8 @@ import com.force.aus.soap.partner.DescribeGlobal;
 import com.force.aus.soap.partner.DescribeGlobalResponse;
 import com.force.aus.soap.partner.DescribeGlobalResultType;
 import com.force.aus.soap.partner.DescribeGlobalSObjectResultType;
+import com.force.aus.soap.partner.GetUserInfo;
+import com.force.aus.soap.partner.GetUserInfoResponse;
 import com.force.aus.soap.partner.SessionHeader;
 import com.force.aus.soap.partner.SforceService;
 import com.force.aus.soap.partner.Soap;
@@ -48,20 +50,9 @@ public class PartnerWSDLService {
 		
 		try { // we shouldn't need login because SessionID should be valid.
 			
-			URL url = this.getClass().getResource(WSDL_NAME);
-			if (url == null) {
-				throw new RuntimeException("Unable to find WSDL ["+WSDL_NAME+"] on classpath");
-			} else {
-				logger.info("URL {}", url.getPath());
-			}
-			SforceService service = new SforceService(url, new QName(QNAME_NAMESPACE, QNAME_LOCAL_PART));
-			Soap port = service.getSoap();
-			
+			Soap port = getSoap();
 			JAXBContext jaxbContext = JAXBContext.newInstance("com.force.aus.soap.partner");
 
-//String sessionId = "00D90000000hOVK!AQYAQE9lU_VlAV.73Yrj33ku2LQ5BK3VCngVwPxW9QC0MvOcXvt45x8Dif7_k1.vr4Q0td.JoHRTRZbb10DmJyxJp7Op.hdd";
-//String partnerId = "https://ap1-api.salesforce.com/services/Soap/u/26.0/00D90000000hOVK";
-			
 			wsBindingProvider = (WSBindingProvider)port;
 			Map<String, Object> requestContext = wsBindingProvider.getRequestContext();
 			requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, message.getPartnerURL() /*partnerId*/);
@@ -79,12 +70,24 @@ public class PartnerWSDLService {
 			
 			wsBindingProvider.setOutboundHeaders(headers);
 			
-			DescribeGlobalResponse describeGlobalResponse = port.describeGlobal(new DescribeGlobal());
+			GetUserInfoResponse getUserInfoResponse = port.getUserInfo(new GetUserInfo());
+		
+			info.setOrgId(getUserInfoResponse.getResult().getOrganizationId());
+			info.setCurrencySymbol(getUserInfoResponse.getResult().getCurrencySymbol());
+			info.setOrgName(getUserInfoResponse.getResult().getOrganizationName());
+			info.setProfileId(getUserInfoResponse.getResult().getProfileId());
+			info.setRoleId(getUserInfoResponse.getResult().getRoleId());
+			info.setSessionSecondsValid(getUserInfoResponse.getResult().getSessionSecondsValid());
+			info.setEmail(getUserInfoResponse.getResult().getUserEmail());
+			info.setFullName(getUserInfoResponse.getResult().getUserFullName());
+			info.setUserId(getUserInfoResponse.getResult().getUserId());
+			info.setLanguage(getUserInfoResponse.getResult().getUserLanguage());
+			info.setLocale(getUserInfoResponse.getResult().getUserLocale());
+			info.setUserName(getUserInfoResponse.getResult().getUserName());
+			info.setTimezone(getUserInfoResponse.getResult().getUserTimeZone());
+			info.setUserType(getUserInfoResponse.getResult().getUserType());
 			
-			DescribeGlobalResultType describeGlobalResultType = describeGlobalResponse.getResult();
-			for(DescribeGlobalSObjectResultType type : describeGlobalResultType.getSobjects()) {
-				logger.info("We have got a describe global back {}", type.getName());
-			}
+
 		} catch(UnexpectedErrorFault_Exception uxe) {
 			logger.error("Caught EnexpectedErrorFault_Exception trying to connect {}", uxe.getMessage());
 			uxe.printStackTrace();
@@ -104,6 +107,17 @@ public class PartnerWSDLService {
 		return info;
 	}
 	
-
-
+	
+	
+	private Soap getSoap() {
+		URL url = this.getClass().getResource(WSDL_NAME);
+		if (url == null) {
+			throw new RuntimeException("Unable to find WSDL ["+WSDL_NAME+"] on classpath");
+		} else {
+			logger.info("URL {}", url.getPath());
+		}
+		SforceService service = new SforceService(url, new QName(QNAME_NAMESPACE, QNAME_LOCAL_PART));
+		return service.getSoap();
+	}
+	
 }
