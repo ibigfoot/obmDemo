@@ -3,19 +3,22 @@ package com.force.aus.outboundMessage.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
-
-import org.hibernate.annotations.Loader;
+import javax.persistence.Table;
 
 
 @Entity
+@Table(name="receivedmessage")
 public class ReceivedMessage implements Serializable {
 
 	@Id
@@ -31,8 +34,8 @@ public class ReceivedMessage implements Serializable {
 	@Lob
 	private String xmlMessage;
 	
-	@OneToMany(fetch=FetchType.EAGER)
-	private List<ModifiedObject> modifiedObjects;
+	@OneToMany(mappedBy="receivedMessage", fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
+	private Set<ModifiedObject> modifiedObjects;
 	
 	public long getId() {
 		return id;
@@ -82,10 +85,10 @@ public class ReceivedMessage implements Serializable {
 	public void setXmlMessage(String xmlMessage) {
 		this.xmlMessage = xmlMessage;
 	}
-	public List<ModifiedObject> getModifiedObjects() {
+	public Set<ModifiedObject> getModifiedObjects() {
 		return modifiedObjects;
 	}
-	public void setModifiedObjects(List<ModifiedObject> modifiedObjects) {
+	public void setModifiedObjects(Set<ModifiedObject> modifiedObjects) {
 		this.modifiedObjects = modifiedObjects;
 	}
 	@Override

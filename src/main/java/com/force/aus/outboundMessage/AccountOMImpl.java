@@ -2,7 +2,9 @@ package com.force.aus.outboundMessage;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.jws.HandlerChain;
@@ -71,14 +73,17 @@ public class AccountOMImpl implements NotificationPort{
 		message.setPartnerURL(partnerURL);
 		message.setSessionId(sessionId);
 		message.setXmlMessage((String)request.getAttribute("RAW_XML"));
-		entityManager.persist(message);
-		List<ModifiedObject> modifiedObjects = new ArrayList<ModifiedObject>();
+		
+		Set<ModifiedObject> modifiedObjects = new HashSet<ModifiedObject>();
 		for(AccountNotification an : notificationList) {
 			ModifiedObject mo= new ModifiedObject();
 			mo.setObjectId(an.getSObject().getId());
+			mo.setReceivedMessage(message);
 			modifiedObjects.add(mo);
 		}
 		message.setModifiedObjects(modifiedObjects);
+	
+		entityManager.persist(message);
 		entityManager.getTransaction().commit();
 		entityManager.close();
 		
