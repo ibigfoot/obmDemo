@@ -1,5 +1,6 @@
 package com.force.aus.outboundMessage.partner;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -8,6 +9,7 @@ import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.handler.MessageContext;
 
@@ -32,7 +34,10 @@ import com.sun.xml.ws.developer.WSBindingProvider;
 public class PartnerWSDLService {
 
 	private Logger logger;
-
+	private static String WSDL_NAME = "/partner.wsdl";
+	private static String QNAME_NAMESPACE = "urn:partner.soap.sforce.com";
+	private static String QNAME_LOCAL_PART = "SforceService";
+	
 	public UserInfo getUserInfo(ReceivedMessage message) {
 		
 		logger = LoggerFactory.getLogger(PartnerWSDLService.class);
@@ -40,7 +45,9 @@ public class PartnerWSDLService {
 		UserInfo info = new UserInfo();
 		
 		try { // we shouldn't need login because SessionID should be valid.
-			SforceService service = new SforceService();
+			
+			URL url = this.getClass().getResource(WSDL_NAME);
+			SforceService service = new SforceService(url, new QName(QNAME_NAMESPACE, QNAME_LOCAL_PART));
 			Soap port = service.getSoap();
 			WSBindingProvider wsBindingProvider = (WSBindingProvider)port;
 			Map<String, Object> requestContext = wsBindingProvider.getRequestContext();
