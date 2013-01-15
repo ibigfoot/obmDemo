@@ -2,30 +2,23 @@ package com.force.aus.outboundMessage.actions;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.force.aus.outboundMessage.entity.ReceivedMessage;
 
 public class HomePageAction extends BaseOBMAction{
 
+	/**
+	 * serialVersionUID = -3644741437299668608L;
+	 */
+	private static final long serialVersionUID = -3644741437299668608L;
 	private List<ReceivedMessage> messages;
-	private Logger logger;
 	
 	public String execute() {
 
-		logger = LoggerFactory.getLogger(HomePageAction.class);
-		logger.info("~~Handling action with {}", HomePageAction.class);
+		initialise(HomePageAction.class.getName());
 		
-		EntityManager em = getEntityManager();
-		em.getTransaction().begin();
-		Query q = em.createQuery("from ReceivedMessage");
-		messages = (List<ReceivedMessage>)q.getResultList();
-		em.getTransaction().commit();
-		em.close();
+		messages = (List<ReceivedMessage>)doListQuery("from ReceivedMessage");
+
+		cleanUp();
 		return SUCCESS;
 	}
 	

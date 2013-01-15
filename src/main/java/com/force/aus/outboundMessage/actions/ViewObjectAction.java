@@ -1,40 +1,30 @@
 package com.force.aus.outboundMessage.actions;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.force.aus.outboundMessage.entity.AccountWrapper;
 import com.force.aus.outboundMessage.entity.ReceivedMessage;
 import com.force.aus.outboundMessage.exceptions.PartnerAPIException;
-import com.force.aus.outboundMessage.listeners.EMFListener;
 import com.force.aus.outboundMessage.partner.PartnerWSDLService;
 import com.sforce.ws.ConnectionException;
 
 public class ViewObjectAction extends BaseOBMAction{
 
-	private Logger logger;
-	private EntityManager em;
+	/**
+	 * serialVersionUID = 3458656659518181880L;
+	 */
+	private static final long serialVersionUID = 3458656659518181880L;
 	private String objectId;
 	private String messageId;
 	private String errorMessage;
 	private AccountWrapper account;
-	private String accountName;
 	
 	public String execute() {
 		
-		logger = LoggerFactory.getLogger(ViewObjectAction.class);
-		logger.info("Processing Action {}",ViewObjectAction.class);
+		initialise(ViewObjectAction.class.getName());
 		
-		PartnerWSDLService service = new PartnerWSDLService();
 		try {
+			ReceivedMessage message = (ReceivedMessage)doSingleQuery("from ReceivedMessage where id="+messageId);
 			
-			em = EMFListener.createEntityManager();
-			Query q = em.createQuery("from ReceivedMessage where id="+messageId);
-			ReceivedMessage message = (ReceivedMessage)q.getSingleResult();
-			
+			PartnerWSDLService service = new PartnerWSDLService();
 			account = service.getAccount(objectId, message);
 		
 		} catch (PartnerAPIException pae) {
@@ -45,6 +35,7 @@ public class ViewObjectAction extends BaseOBMAction{
 			ce.printStackTrace();
 		}
 		
+		cleanUp();
 		return SUCCESS;
 	}
 
