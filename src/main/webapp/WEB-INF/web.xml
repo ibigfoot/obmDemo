@@ -52,20 +52,7 @@
 		<servlet-name>jaxws-servlet</servlet-name>
 		<url-pattern>/OutboundMsgService</url-pattern>
 	</servlet-mapping>
-	<!-- Direct Web Remoting -->
-	<servlet>
-		<display-name>DWR Servlet</display-name>
-		<servlet-name>dwr-invoker</servlet-name>
-		<servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
-		<init-param>
-			<param-name>debug</param-name>
-			<param-value>true</param-value>
-		</init-param>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>dwr-invoker</servlet-name>
-		<url-pattern>/dwr/*</url-pattern>
-	</servlet-mapping>
+
 	
 	<!-- Datasource (used in persistence.xml) -->
 	<resource-ref>
