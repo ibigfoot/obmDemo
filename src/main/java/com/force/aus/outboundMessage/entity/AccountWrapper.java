@@ -58,9 +58,10 @@ public class AccountWrapper {
 			throw new IllegalStateException("This method doesn't tollerate NULL sobject parameter");
 		}
 		for(Field f : fields) {
-			logger.info("Field {} - value {}", f.getName(), (object.getField(f.getName()) != null ? object.getField(f.getName()) : ""));
-			values.put(f, (object.getField(f.getName()) != null ? object.getField(f.getName()) : ""));
-			
+			if(!f.isAutoNumber() && !f.isCalculated() && !f.isDeprecatedAndHidden() && f.isUpdateable()) {
+				logger.info("Field {} - value {}", f.getName(), (object.getField(f.getName()) != null ? object.getField(f.getName()) : ""));
+				values.put(f, (object.getField(f.getName()) != null ? object.getField(f.getName()) : ""));
+			}
 			//set account name
 			if(f.getName().equalsIgnoreCase("name")) {
 				accountName = object.getField(f.getName()).toString();
