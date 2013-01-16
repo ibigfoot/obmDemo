@@ -83,8 +83,8 @@ public class PartnerWSDLService {
 		logger = LoggerFactory.getLogger(PartnerWSDLService.class);
 		logger.info("Attempting to conect to org {} using URL {}", message.getOrgId(), message.getPartnerURL());
 		
-		message.setPartnerURL("https://ap1-api.salesforce.com/services/Soap/u/26.0/00D90000000hWCN");
-		message.setSessionId("00D90000000hWCN!AQsAQMPl3UqsiNU9ERJl7KnnrJDGP7iFfKMZD6tBy57OmIwLK_K7.waXHqn8Qhi1r_eFL1vE9Gic1OCmwDDMao8LsKbjEog8");
+//		message.setPartnerURL("https://ap1-api.salesforce.com/services/Soap/u/26.0/00D90000000hWCN");
+//		message.setSessionId("00D90000000hWCN!AQsAQMPl3UqsiNU9ERJl7KnnrJDGP7iFfKMZD6tBy57OmIwLK_K7.waXHqn8Qhi1r_eFL1vE9Gic1OCmwDDMao8LsKbjEog8");
 		
 		
 		ConnectorConfig config = new ConnectorConfig();
@@ -111,7 +111,7 @@ public class PartnerWSDLService {
 	 */
 	public AccountWrapper getAccount(String objectId, ReceivedMessage message) throws ConnectionException, PartnerAPIException {
 		
-		objectId = "0019000000GIbQI";
+//		objectId = "0019000000GIbQI";
 		
 		logger.info("Query account object {}", objectId);
 		AccountWrapper wrapper = new AccountWrapper();
