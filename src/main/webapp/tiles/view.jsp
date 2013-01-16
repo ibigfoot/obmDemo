@@ -25,12 +25,12 @@
 --%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
-<s:if test="errorMessage != null">
-	<div>
-		<s:property value="errorMessage"/>
-	</div>	
+<s:if test="hasActionErrors()">
+	<s:url action="app/delete" includeParams="get" id="delete"/>
+	Would you like to <s:a href="%{delete}">Delete</s:a> stored Outbound Message with ID <s:property value="messageId"/>?
 </s:if>
 <s:else>
+	
 	<div id="obmDetails">
 		<h2>Outbound Message Received - Details</h2>
 		This page shows the details of the Outbound Message as received by this Heroku application.

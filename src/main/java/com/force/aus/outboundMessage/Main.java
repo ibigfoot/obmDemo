@@ -85,7 +85,6 @@ public class Main {
         root.setResourceBase(webappDirLocation);
         root.setAttribute("obmDS", getJNDIResource(System.getenv("DATABASE_URL")));
         
-        
         //Parent loader priority is a class loader setting that Jetty accepts.
         //By default Jetty will behave like most web containers in that it will
         //allow your application to replace non-server libraries that are part of the

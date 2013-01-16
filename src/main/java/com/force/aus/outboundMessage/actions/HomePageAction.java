@@ -27,9 +27,21 @@ package com.force.aus.outboundMessage.actions;
 
 import java.util.List;
 
-import com.force.aus.outboundMessage.entity.ReceivedMessage;
+import javax.persistence.NoResultException;
 
-public class HomePageAction extends BaseOBMAction{
+import com.force.aus.outboundMessage.entity.ReceivedMessage;
+/**
+ * HomePageAction retrieves all the locally stored Outbound Messages that have been received.
+ * Each message that is received by the webservice is persisted to a local dbase, allowing
+ * users to view them via this action
+ * <p>
+ * The BaseOBMAction class instantiates and commits transactions as well as handling the 
+ * JPA stuff.
+ * </p>
+ * @author tsellers@salesforce.com
+ *
+ */
+public class HomePageAction extends BaseOBMAction {
 
 	/**
 	 * serialVersionUID = -3644741437299668608L;
@@ -37,13 +49,16 @@ public class HomePageAction extends BaseOBMAction{
 	private static final long serialVersionUID = -3644741437299668608L;
 	private List<ReceivedMessage> messages;
 	
-	public String execute() {
-
-		initialise(HomePageAction.class.getName());
+	@Override
+	public String doExecute() {
 		
-		messages = (List<ReceivedMessage>)doListQuery("from ReceivedMessage");
-
-		cleanUp();
+		try {
+			messages = (List<ReceivedMessage>)doListQuery("from ReceivedMessage");
+		} catch (NoResultException nre) {
+			logger.info("No result from query {}",nre.getMessage());
+			addActionError("Unable to find any Outbound Messages ");
+			addActionError("Configure a Salesforce environment to send an Outbound Message to <thisHost>/OutboundMsgService and then refersh this page.");
+		}
 		return SUCCESS;
 	}
 	

@@ -33,18 +33,20 @@ package com.force.aus.outboundMessage.actions;
  */
 public class DeleteOBMAction extends BaseOBMAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 559587948583941458L;
 	private String messageId;
 	
-	public String execute() {
-		
-		initialise(DeleteOBMAction.class.getName());
+	public String doExecute() {
 		
 		doExecuteQuery("delete from ModifiedObject where receivedmessage_id ="+messageId);
 		doExecuteQuery("delete ReceivedMessage where id ="+messageId);
 		
-		cleanUp();
-		return SUCCESS;
+		addActionMessage("Successfully deleted OBM "+messageId);
 		
+		return SUCCESS;
 	}
 
 	public String getMessageId() {

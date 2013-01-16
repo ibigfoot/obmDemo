@@ -25,6 +25,8 @@
  */
 package com.force.aus.outboundMessage.actions;
 
+import javax.persistence.NoResultException;
+
 import com.force.aus.outboundMessage.entity.ReceivedMessage;
 import com.force.aus.outboundMessage.partner.PartnerWSDLService;
 import com.sforce.soap.partner.GetUserInfoResult;
@@ -42,23 +44,26 @@ public class ViewOBMAction extends BaseOBMAction {
 	private GetUserInfoResult userInfo;
 	private String errorMessage;
 
-	public String execute() {
+	public String doExecute() {
 	
-		initialise(ViewObjectAction.class.getName());
-
-		message = (ReceivedMessage)doSingleQuery("from ReceivedMessage where id="+messageId);
-
 		try {
+			message = (ReceivedMessage)doSingleQuery("from ReceivedMessage where id="+messageId);
 			PartnerWSDLService service = new PartnerWSDLService();
 			userInfo = service.getUserInfo(message);
 			
+			addActionMessage("Have retrieved User Info from Salesforce via the Partner API");
+			
 		} catch (ConnectionException ce) {
-			errorMessage = "The Partner API interface failed to retrieve the necessary details.\n"+ce.getMessage();
-			errorMessage += "<br />The OutboundMessage that is stored needs to be removed from the database becuase it had an Invalid Session ID";			
+			addActionError("The Partner API interface failed to retrieve the necessary details.");
+			addActionError("The OutboundMessage that is stored needs to be removed from the database becuase it had an Invalid Session ID");	
+			addActionError(ce.getMessage());
 			ce.printStackTrace();
+		} catch (NoResultException nre) {
+			logger.info("No results from query of object ID {}", messageId);
+			addActionError("Unable to find any local copy of Outbound Message with ID "+messageId);
+			nre.printStackTrace();
 		}
-		
-		cleanUp();
+
 		return SUCCESS;		
 	}
 	

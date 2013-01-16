@@ -25,17 +25,26 @@
  */
 package com.force.aus.outboundMessage.actions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.force.aus.outboundMessage.entity.ReceivedMessage;
 import com.force.aus.outboundMessage.listeners.EMFListener;
 import com.opensymphony.xwork2.ActionSupport;
-
+/**
+ * BaseOBMAction handles common action tasks.
+ * Manages transactions and creation and closing of EntityManager.
+ * Also provides method wrappers for JPA queries.
+ * Instantiates and handles most of the logging.
+ * 
+ * @author tsellers@salesforce.com
+ *
+ */
 public abstract class BaseOBMAction extends ActionSupport {
 
 	/**
@@ -45,47 +54,76 @@ public abstract class BaseOBMAction extends ActionSupport {
 	protected EntityManager em;
 	protected Logger logger;
 	
-	protected void initialise(String className) {
-		if(em == null) {
-			em = EMFListener.createEntityManager();
-		}	
-		logger = LoggerFactory.getLogger(className);
-		logger.info("~~Initialising for ActionHandler {}", className);
+	public String execute() {
+		logger = LoggerFactory.getLogger(this.getClass());
+		logger.info("Executing Action {}", this.getClass());
+		
+		em = EMFListener.createEntityManager();
+		
+		em.getTransaction().begin();
+		// call method provided concrete by implementation classes
+		String action = doExecute();
+		em.getTransaction().commit();
+		em.close();
+		
+		logger.info("Action {} complete, returning {}", this.getClass(), action);
+		
+		return action;
 	}
 	
-	protected void cleanUp() {
-		if(em != null && em.isOpen()) {
-			em.close();
-		}
-	}
+	/**
+	 * Method for extending action classes to implement
+	 * @return
+	 */
+	public abstract String doExecute();
+	
+	/**
+	 * Get an EntityManager from the EMFListener class.
+	 * 
+	 * @return
+	 */
 	protected EntityManager getEntityManager() {
 		return EMFListener.createEntityManager();
 	}
 	
+	/**
+	 * Return an un-typed list from executing the JPA getResultList() query. 
+	 * 
+	 * @param query
+	 * @return
+	 */
 	protected List doListQuery(String query) {
 		
-		em.getTransaction().begin();
+		logger.info("About to do ListQuery {}",query);
 		List retVal = em.createQuery(query).getResultList();
-		em.getTransaction().commit();
 		
 		return retVal;
-		
+
 	}
-	
+	/**
+	 * Returns an Object from executing the JPA getSingleResult() query.
+	 * @param query
+	 * @return
+	 */
 	protected Object doSingleQuery(String query) {
 		
-		em.getTransaction().begin();
+		logger.info("About to do SingleQuery {}", query);			
 		Object obj = em.createQuery(query).getSingleResult();
-		em.getTransaction().commit();
-		
+
+
 		return obj;
 	}
 	
+	/**
+	 * Returns int that is the result of a JPA executeUpdate() query.
+	 * 
+	 * @param query
+	 * @return
+	 */
 	protected int doExecuteQuery(String query) {
 	
-		em.getTransaction().begin();
+		logger.info("About to execute query {}", query);		
 		int retVal = em.createQuery(query).executeUpdate();
-		em.getTransaction().commit();
 		
 		return retVal;
 		

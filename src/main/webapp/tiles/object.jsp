@@ -25,11 +25,10 @@
 --%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
-This is a single object view.
 
-<s:if test="message != null">
-	There has been a problem with the request. <hr />
-	<s:property value="message" />
+<s:if test="hasActionErrors()">
+	<s:url action="app/delete" includeParams="get" id="delete"/>
+	Would you like to <s:a href="%{delete}">Delete</s:a> stored Outbound Message with ID <s:property value="messageId"/>?
 </s:if>
 <s:else>
 	Account Details - <s:property value="account.accountName"/>
