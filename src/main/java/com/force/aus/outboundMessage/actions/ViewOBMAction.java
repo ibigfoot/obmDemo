@@ -51,8 +51,10 @@ public class ViewOBMAction extends BaseOBMAction {
 		try {
 			PartnerWSDLService service = new PartnerWSDLService();
 			userInfo = service.getUserInfo(message);
+			
 		} catch (ConnectionException ce) {
 			errorMessage = "The Partner API interface failed to retrieve the necessary details.\n"+ce.getMessage();
+			errorMessage += "<br />The OutboundMessage that is stored needs to be removed from the database becuase it had an Invalid Session ID";			
 			ce.printStackTrace();
 		}
 		

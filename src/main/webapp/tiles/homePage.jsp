@@ -48,15 +48,9 @@
 					<td class="obmCell"><s:property value="#message.modifiedObjects.size"/></td>
 					<td class="obmCell"><s:property value="#message.dateReceived"/></td>
 					<td class="obmCell links">
-						<s:url action="app/edit" includeParams="get" id="edit">
-							<s:param name="messageId" value="#message.id"/>
-						</s:url><s:a href="%{edit}">Edit</s:a> &nbsp;
 						<s:url action="app/view" includeParams="get" id="view">
 							<s:param name="messageId" value="#message.id"/>
-						</s:url><s:a href="%{view}">View</s:a> &nbsp;
-						<s:url action="app/showobm" includeParams="get" id="showobm">
-							<s:param name="messageId" value="#message.id"/>
-						</s:url><s:a href="%{showobm}">Raw OBM</s:a>
+						</s:url><s:a href="%{view}">View OBM</s:a> <br />
 						<s:url action="app/delete" includeParams="get" id="delete">
 							<s:param name="messageId" value="#message.id"/>
 						</s:url><s:a href="%{delete}">Delete OBM</s:a>

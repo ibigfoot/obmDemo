@@ -25,47 +25,69 @@
 --%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
-<s:if test="userInfo == null">
+<s:if test="errorMessage != null">
 	<div>
-		The application was unable to retrieve details. <br />
 		<s:property value="errorMessage"/>
-		<p>
-			Message ID - <s:property value="message.id" /><br />
-			Org ID (message) - <s:property value="message.orgId" /><br />
-			Session ID - <s:property value="message.sessionId" /><br />
-			Action ID - <s:property value="message.actionId" /><br />
-			Date Received - <s:property value="message.dateReceived" /><br />
-			Enterprise URL - <s:property value="message.enterpriseURL" /><br />
-			Parnter URL - <s:property value="message.partnerURL" /><br />
-		</p>
 	</div>	
 </s:if>
 <s:else>
-	<p>
-		This shows us the details of the Outbound Message that was received.
-	</p>
-	<div>
-		User Details
-		<hr />
-		Full Name - <s:property value="userInfo.fullName"/> <br />
-		User Name - <s:property value="userInfo.userName"/><br />
-		Email - <s:property value="userInfo.email"/><br />
-		Org Name - <s:property value="userInfo.orgName" /><br />
-		Locale - <s:property value="userInfo.locale"/><br />
-		Timezone - <s:property value="userInfo.timezone"/><br />
-		User Type - <s:property value="userInfo.userType"/><br />
+	<div id="obmDetails">
+		<h2>Outbound Message Received - Details</h2>
+		This page shows the details of the Outbound Message as received by this Heroku application.
 	</div>
-	<div>
-		Message Details
-		<hr />
-		Message ID - <s:property value="message.id" /><br />
-		Org ID (message) - <s:property value="message.orgId" /><br />
-		Session ID - <s:property value="message.sessionId" /><br />
-		Action ID - <s:property value="message.actionId" /><br />
-		Date Received - <s:property value="message.dateReceived" /><br />
-		Enterprise URL - <s:property value="message.enterpriseURL" /><br />
-		Parnter URL - <s:property value="message.partnerURL" /><br />
+	<div class="details">
+		<h3>User Details</h3>
+		<table width="100%">
+			<tr>
+				<td>Full Name</td><td><s:property value="userInfo.userFullName"/></td>
+			</tr>
+			<tr>
+				<td>User Name</td><td><s:property value="userInfo.userName"/></td>
+			</tr>
+			<tr>
+				<td>Email</td><td><s:property value="userInfo.userEmail"/></td>
+			</tr>
+			<tr>
+				<td>Email</td><td><s:property value="userInfo.organizationName"/></td>
+			</tr>	
+			<tr>
+				<td>Locale</td><td><s:property value="userInfo.userLocale"/></td>
+			</tr>
+			<tr>
+				<td>Timezone</td><td><s:property value="userInfo.userTimezone"/></td>
+			</tr>	
+			<tr>
+				<td>User Type</td><td><s:property value="userInfo.userType"/></td>
+			</tr>											
+		</table>
 	</div>
+	<div class="details">
+		<h3>Message Details</h3>
+		<table width="100%">
+			<tr>
+				<td>Message ID</td><td><s:property value="message.id" /></td>
+			</tr>
+			<tr>
+				<td>Org ID</td><td><s:property value="message.orgId" /></td>
+			</tr>
+			<tr>
+				<td>Session ID</td><td><s:property value="message.sessionId" /></td>
+			</tr>	
+			<tr>
+				<td>Action ID</td><td><s:property value="message.actionId" /></td>
+			</tr>
+			<tr>
+				<td>Date Received</td><td><s:date name="message.dateReceived" format="dd-MM-yyyy hh:mm:ss"/></td>
+			</tr>
+			<tr>
+				<td>Enterprise URL</td><td><s:property value="message.enterpriseURL" /></td>
+			</tr>	
+			<tr>
+				<td>Parnter URL</td><td><s:property value="message.partnerURL" /></td>
+			</tr>															
+		</table>
+	</div>
+
 	<div>
 		Object Details
 		<hr />
@@ -75,5 +97,22 @@
 			</s:url>Object ID - <s:a href="%{showObject}"><s:property value="#modifiedObject.objectId"/></s:a><br />
 
 		</s:iterator>
+	</div>
+	<div>
+		<h3>Raw XML Message <span id="xmlToggle">hide/show</span></h3>
+		<div id="xml" style="display:none">
+			<textarea readonly="readonly" cols="80" rows="30">
+				<s:property escapeHtml="true" value="message.xmlMessage" />
+			</textarea>		
+		</div>
+		<script type="text/javascript">
+			
+		$(document).ready(function() {
+			$("#xmlToggle").click(function(){
+				$("#xml").toggle();
+			});
+		});
+		
+		</script>
 	</div>
 </s:else>

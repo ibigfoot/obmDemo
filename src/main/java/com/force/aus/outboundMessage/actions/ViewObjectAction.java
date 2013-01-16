@@ -45,9 +45,9 @@ public class ViewObjectAction extends BaseOBMAction{
 	public String execute() {
 		
 		initialise(ViewObjectAction.class.getName());
-		
+		ReceivedMessage message = null;
 		try {
-			ReceivedMessage message = (ReceivedMessage)doSingleQuery("from ReceivedMessage where id="+messageId);
+			message = (ReceivedMessage)doSingleQuery("from ReceivedMessage where id="+messageId);
 			
 			PartnerWSDLService service = new PartnerWSDLService();
 			account = service.getAccount(objectId, message);
@@ -58,6 +58,7 @@ public class ViewObjectAction extends BaseOBMAction{
 		} catch (ConnectionException ce) {
 			errorMessage = ce.getMessage();
 			ce.printStackTrace();
+			errorMessage += "<br />The OutboundMessage that is stored needs to be removed from the database becuase it had an Invalid Session ID";			
 		}
 		
 		cleanUp();
@@ -84,7 +85,7 @@ public class ViewObjectAction extends BaseOBMAction{
 		this.objectId = objectId;
 	}
 
-	public String getMessage() {
+	public String getErrorMessage() {
 		return errorMessage;
 	}
 	

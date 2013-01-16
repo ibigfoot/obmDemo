@@ -32,6 +32,7 @@ import javax.persistence.EntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.force.aus.outboundMessage.entity.ReceivedMessage;
 import com.force.aus.outboundMessage.listeners.EMFListener;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -88,7 +89,5 @@ public abstract class BaseOBMAction extends ActionSupport {
 		
 		return retVal;
 		
-	}
-	
-	
+	}	
 }

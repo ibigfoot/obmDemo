@@ -32,19 +32,22 @@ This is a single object view.
 	<s:property value="message" />
 </s:if>
 <s:else>
-	Account Details - <s:property value="accountName"/>
+	Account Details - <s:property value="account.accountName"/>
 	<hr />
 	<table width="80%">
 		<tr>
 			<th>Field Name</th>
 			<th>API Name</th>
+			<th>Datatype</th>
 			<th>Value</th>
 		</tr>
-		<s:iterator value="account.values" var="value">
+		<s:iterator value="account.values" var="map" status="stat">
 			<tr>
-				<td><s:property value="#value.key.label"/></td>
-				<td><s:property value="#value.key.name"/></td>
-				<td><input type="text" value='<s:property value="#value[value.key]"/>'/></td>
+				<!-- <td>Row <s:property value="#stat.index"/></td> -->
+				<td><s:property value="#map.key.label"/></td>
+				<td><s:property value="#map.key.name"/></td>
+				<td><s:property value="#map.key.type"/></td>
+				<td><input type="text" value='<s:property value="#map.value"/>'/></td>
 			</tr>	
 		</s:iterator>
 	</table>

@@ -43,7 +43,7 @@
 			class="com.force.aus.outboundMessage.actions.HomePageAction" method="execute">
 			<result name="success" type="tiles">homepage.tiles</result>
 		</action>
-		<action name="edit"
+		<action name="view"
 			class="com.force.aus.outboundMessage.actions.ViewOBMAction" method="execute">
 			<result name="success" type="tiles">view.tiles</result>
 		</action>
@@ -53,10 +53,6 @@
 				<param name="actionName">app/index</param>
 			</result>
 		</action>	
-		<action name="showobm"
-			class="com.force.aus.outboundMessage.actions.ViewOBMAction" method="execute">
-			<result name="success" type="tiles">showXml.tiles</result>
-		</action>
 		<action name="showObject" 
 			class="com.force.aus.outboundMessage.actions.ViewObjectAction" method="execute">
 			<result name="success" type="tiles">showObject.tiles</result>

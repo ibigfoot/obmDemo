@@ -71,7 +71,7 @@ public class AccountWrapper {
 		this.values = values;
 	}
 	public String getAccountName() {
-		return accountName;
+		return accountName != null || accountName.length() != 0 ? accountName : "Null Name?";
 	}
 	public void processSObject(SObject object) {
 		values = new HashMap<Field, Object>();
@@ -86,6 +86,7 @@ public class AccountWrapper {
 			if(!f.isAutoNumber() && !f.isCalculated() && !f.isDeprecatedAndHidden() && f.isUpdateable()) {
 				logger.info("Field {} - value {}", f.getName(), (object.getField(f.getName()) != null ? object.getField(f.getName()) : ""));
 				values.put(f, (object.getField(f.getName()) != null ? object.getField(f.getName()) : ""));
+
 			}
 			//set account name
 			if(f.getName().equalsIgnoreCase("name")) {
@@ -115,5 +116,6 @@ public class AccountWrapper {
 		
 		return sb.toString();
 	}
+	
 	
 }
