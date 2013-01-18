@@ -65,6 +65,8 @@ public class Main {
     public static void main(String[] args) throws Exception{
     	
     	LOG = LoggerFactory.getLogger(Main.class);
+    	
+    	AppProperties.loadProperties();
         String webappDirLocation = "src/main/webapp/";
         
         //The port that we should run on can be set into an environment variable
@@ -83,7 +85,8 @@ public class Main {
         root.setContextPath("/");
         root.setDescriptor(webappDirLocation+"/WEB-INF/web.xml");
         root.setResourceBase(webappDirLocation);
-        root.setAttribute("obmDS", getJNDIResource(System.getenv("DATABASE_URL")));
+        	
+        root.setAttribute("obmDS", getJNDIResource());
         
         //Parent loader priority is a class loader setting that Jetty accepts.
         //By default Jetty will behave like most web containers in that it will
@@ -97,10 +100,16 @@ public class Main {
         server.join();   
     }
     
-    private static Resource getJNDIResource(String databaseURL) throws URISyntaxException, NamingException {
+    private static Resource getJNDIResource() throws URISyntaxException, NamingException {
     	
     	// database URL should be postgres://username:password@host:port/schema
-    	URI dbUri = new URI(databaseURL);
+    	
+    	String databaseURL = System.getenv("DATABASE_URL") ;
+    	if(databaseURL == null) {
+    		databaseURL = AppProperties.getPropValue(AppProperties.DEV_DBASE_URL);
+    	}
+    	
+     	URI dbUri = new URI(databaseURL);
     	String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":")[1];
         

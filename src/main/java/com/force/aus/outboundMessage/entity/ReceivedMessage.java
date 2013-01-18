@@ -61,6 +61,7 @@ public class ReceivedMessage implements Serializable {
 	private Date dateReceived;
 	@Lob
 	private String xmlMessage;
+
 	
 	@OneToMany(mappedBy="receivedMessage", fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
 	private Set<ModifiedObject> modifiedObjects;
@@ -119,6 +120,7 @@ public class ReceivedMessage implements Serializable {
 	public void setModifiedObjects(Set<ModifiedObject> modifiedObjects) {
 		this.modifiedObjects = modifiedObjects;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

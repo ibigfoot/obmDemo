@@ -46,7 +46,13 @@
 					<td class="obmCell"><s:property value="#message.orgId"/></td>
 					<td class="obmCell"><s:property value="#message.sessionId"/></td>
 					<td class="obmCell"><s:property value="#message.modifiedObjects.size"/></td>
-					<td class="obmCell"><s:property value="#message.dateReceived"/></td>
+					<td class="obmCell">
+						<!-- Format date to user timezone -->
+						<script type="text/javascript">
+							var d = new Date('<s:date name="#message.dateReceived" timezone="UTC"/> UTC');
+							document.write(d);
+						</script>
+					</td>
 					<td class="obmCell links">
 						<s:url action="app/view" includeParams="get" id="view">
 							<s:param name="messageId" value="#message.id"/>
@@ -62,3 +68,8 @@
 	<s:if test="messages.size == 0">
 		We have no Outbound Messages stored.
 	</s:if>
+	<script type="text/javascript">
+		function formatDateToTimezone(d) {
+			var offset = d.get
+		}
+	</script>

@@ -25,6 +25,7 @@
  */
 package com.force.aus.outboundMessage.actions;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -54,6 +55,7 @@ public class HomePageAction extends BaseOBMAction {
 		
 		try {
 			messages = (List<ReceivedMessage>)doListQuery("from ReceivedMessage");
+			
 		} catch (NoResultException nre) {
 			logger.info("No result from query {}",nre.getMessage());
 			addActionError("Unable to find any Outbound Messages ");
