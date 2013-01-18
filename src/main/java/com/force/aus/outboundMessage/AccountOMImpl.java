@@ -102,7 +102,7 @@ public class AccountOMImpl implements NotificationPort{
 		message.setOrgId(orgId);
 		message.setPartnerURL(partnerURL);
 		message.setSessionId(sessionId);
-		message.setXmlMessage((String)request.getAttribute("RAW_XML"));
+		message.setXmlMessage(((String)request.getAttribute("RAW_XML")).trim());
 		
 		Set<ModifiedObject> modifiedObjects = new HashSet<>();
 		for(AccountNotification an : notificationList) {

@@ -56,7 +56,6 @@ public class ViewOBMAction extends BaseOBMAction {
 		} catch (ConnectionException ce) {
 			addActionError("The Partner API interface failed to retrieve the necessary details.");
 			addActionError("The OutboundMessage that is stored needs to be removed from the database becuase it had an Invalid Session ID");	
-			addActionError(ce.getMessage());
 			ce.printStackTrace();
 		} catch (NoResultException nre) {
 			logger.info("No results from query of object ID {}", messageId);

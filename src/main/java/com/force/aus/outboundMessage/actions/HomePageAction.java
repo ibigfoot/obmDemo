@@ -25,6 +25,7 @@
  */
 package com.force.aus.outboundMessage.actions;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -50,6 +51,8 @@ public class HomePageAction extends BaseOBMAction {
 	 */
 	private static final long serialVersionUID = -3644741437299668608L;
 	private List<ReceivedMessage> messages;
+	private int recordCount;
+
 	
 	@Override
 	public String doExecute() {
@@ -57,7 +60,7 @@ public class HomePageAction extends BaseOBMAction {
 		try {
 			messages = (List<ReceivedMessage>)doListQuery("from ReceivedMessage");
 			Collections.sort(messages, new ReceivedMessageComparator());
-			
+			recordCount = messages != null ? messages.size() : 0;
 			
 		} catch (NoResultException nre) {
 			logger.info("No result from query {}",nre.getMessage());
@@ -70,6 +73,8 @@ public class HomePageAction extends BaseOBMAction {
 	public List<ReceivedMessage> getMessages() {
 		return messages;
 	}
-
 	
+	public int getRecordCount() {
+		return recordCount;
+	}
 }

@@ -88,41 +88,43 @@
 		</table>
 	</div>
 
-	<div>
-		<h3>Object Details</h3>
-		<table>
-			<tr>
-				<th>Ojbect ID</th>
-				<th>Object Name</th>
-			</tr>
-			<s:iterator value="message.modifiedObjects" var="modifiedObject">
+	<div class="clearfix">
+		<div class="objectDetails">
+			<h3>Object Details</h3>
+			<table>
 				<tr>
-					<td>
-						<s:url action="app/showObject" includeParams="get" id="showObject">
-							<s:param name="objectId" value="#modifiedObject.objectId"/>
-						</s:url><s:a href="%{showObject}" tooltip="Show object details"><s:property value="#modifiedObject.objectId" /></s:a>
-					</td>
-					<td>
-						<s:property value="#modifiedObject.objectName"/>
-					</td>
-			</s:iterator>
-		</table>
-	</div>
-	<div>
-		<h3>Raw XML Message <span id="xmlToggle">hide/show</span></h3>
-		<div id="xml" style="display:none">
-			<textarea readonly="readonly" cols="80" rows="30">
-				<s:property escapeHtml="true" value="message.xmlMessage" />
-			</textarea>		
+					<th>Ojbect ID</th>
+					<th>Object Name</th>
+				</tr>
+				<s:iterator value="message.modifiedObjects" var="modifiedObject">
+					<tr>
+						<td>
+							<s:url action="app/showObject" includeParams="get" id="showObject">
+								<s:param name="objectId" value="#modifiedObject.objectId"/>
+							</s:url><s:a href="%{showObject}" tooltip="Show object details"><s:property value="#modifiedObject.objectId" /></s:a>
+						</td>
+						<td>
+							<s:property value="#modifiedObject.objectName"/>
+						</td>
+				</s:iterator>
+			</table>
 		</div>
-		<script type="text/javascript">
-			
-		$(document).ready(function() {
-			$("#xmlToggle").click(function(){
-				$("#xml").toggle();
+		<div class="objectDetails">
+			<h3>Raw XML Message <span id="xmlToggle">hide/show</span></h3>
+			<div id="xml" style="display:none">
+				<textarea readonly="readonly" cols="80" rows="30">
+					<s:property escapeHtml="true" value="message.xmlMessage" />
+				</textarea>		
+			</div>
+			<script type="text/javascript">
+				
+			$(document).ready(function() {
+				$("#xmlToggle").click(function(){
+					$("#xml").toggle();
+				});
 			});
-		});
-		
-		</script>
+			
+			</script>
+		</div>
 	</div>
 </s:else>

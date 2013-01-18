@@ -63,6 +63,7 @@ body {
 }
 
 #footer {
+	float:none;
 	height: 16px;
 	font-size:11px;
 	color: #808080;
@@ -121,4 +122,16 @@ body {
 .actionMessage li {
 	list-style: none;
 	border: 1px solid black;
+}
+
+.objectDetails {
+	width: 50%;
+	float:left;
+}
+
+.clearfix:after {
+	content: " ";
+   display: block; 
+   height: 0; 
+   clear: both;
 }

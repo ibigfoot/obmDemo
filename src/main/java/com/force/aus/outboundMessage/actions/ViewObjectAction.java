@@ -60,13 +60,10 @@ public class ViewObjectAction extends BaseOBMAction{
 		    
 		} catch (PartnerAPIException pae) {
 			pae.printStackTrace();
-			addActionError("There has been a problem accessing the Salesforce Partner API");
-			addActionError(pae.getMessage());
+			addActionError("There has been a problem accessing the Salesforce Partner API\n"+pae.getMessage());
 		} catch (ConnectionException ce) {
 			ce.printStackTrace();
-			addActionError("There has been a problem accessing the Salesforce Partner API");
-			addActionError("The OutboundMessage that is stored needs to be removed from the database becuase it had an Invalid Session ID");
-			addActionError(ce.getMessage());
+			addActionError("There has been a problem accessing the Salesforce Partner API\nThe OutboundMessage that is stored needs to be removed from the database becuase it had an Invalid Session ID");
 		} catch (NoResultException nre) {
 			logger.info("Query on messageId {} returned no results");
 			addActionError("Unable to find local copy of Outbound Message : ID "+ messageId);

@@ -69,7 +69,15 @@
 		<url-pattern>/OutboundMsgService</url-pattern>
 	</servlet-mapping>
 
-	
+	<servlet>
+		<servlet-name>count-messages-servlet</servlet-name>
+		<servlet-class>com.force.aus.outboundMessage.CountMessagesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>count-messages-servlet</servlet-name>
+		<url-pattern>/countMessages</url-pattern>
+	</servlet-mapping>
 	<!-- Datasource (used in persistence.xml) -->
 	<resource-ref>
 		<res-ref-name>jdbc/obmDS</res-ref-name>
