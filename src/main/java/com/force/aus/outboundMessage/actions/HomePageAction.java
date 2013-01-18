@@ -25,11 +25,12 @@
  */
 package com.force.aus.outboundMessage.actions;
 
-import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.NoResultException;
 
+import com.force.aus.outboundMessage.comparators.ReceivedMessageComparator;
 import com.force.aus.outboundMessage.entity.ReceivedMessage;
 /**
  * HomePageAction retrieves all the locally stored Outbound Messages that have been received.
@@ -55,6 +56,8 @@ public class HomePageAction extends BaseOBMAction {
 		
 		try {
 			messages = (List<ReceivedMessage>)doListQuery("from ReceivedMessage");
+			Collections.sort(messages, new ReceivedMessageComparator());
+			
 			
 		} catch (NoResultException nre) {
 			logger.info("No result from query {}",nre.getMessage());

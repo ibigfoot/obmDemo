@@ -112,3 +112,13 @@ body {
 	word-wrap:break-word;
 	text-align: center;
 }
+
+.actionMessage {
+	padding: 0px;
+	margin: 0px;
+}
+/* Struts Tag styling */
+.actionMessage li {
+	list-style: none;
+	border: 1px solid black;
+}

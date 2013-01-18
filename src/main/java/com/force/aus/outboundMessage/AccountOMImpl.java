@@ -26,10 +26,12 @@
 package com.force.aus.outboundMessage;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.TreeSet;
 
 import javax.annotation.Resource;
 import javax.jws.HandlerChain;
@@ -50,11 +52,14 @@ import javax.xml.ws.handler.MessageContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.force.aus.outboundMessage.comparators.ModifiedObjectComparator;
 import com.force.aus.outboundMessage.entity.ModifiedObject;
 import com.force.aus.outboundMessage.entity.ReceivedMessage;
 import com.force.aus.outboundMessage.listeners.EMFListener;
+import com.force.aus.outboundMessage.partner.PartnerWSDLService;
 import com.force.aus.wsdl.AccountNotification;
 import com.force.aus.wsdl.NotificationPort;
+import com.sforce.ws.ConnectionException;
 
 @WebService(targetNamespace="http://soap.sforce.com/2005/09/outbound")
 @SOAPBinding(style = Style.DOCUMENT, use=Use.LITERAL)
@@ -99,7 +104,7 @@ public class AccountOMImpl implements NotificationPort{
 		message.setSessionId(sessionId);
 		message.setXmlMessage((String)request.getAttribute("RAW_XML"));
 		
-		Set<ModifiedObject> modifiedObjects = new HashSet<ModifiedObject>();
+		Set<ModifiedObject> modifiedObjects = new TreeSet<>(new ModifiedObjectComparator());
 		for(AccountNotification an : notificationList) {
 			ModifiedObject mo= new ModifiedObject();
 			mo.setObjectId(an.getSObject().getId());
@@ -107,7 +112,14 @@ public class AccountOMImpl implements NotificationPort{
 			modifiedObjects.add(mo);
 		}
 		message.setModifiedObjects(modifiedObjects);
-	
+
+		PartnerWSDLService service = new PartnerWSDLService();
+		try {
+			service.populateObjectNames(message);
+		} catch (ConnectionException ce) {
+			logger.error("Unable to populate object names for received message {}", ce.getMessage());
+			ce.printStackTrace();
+		}
 		entityManager.persist(message);
 		entityManager.getTransaction().commit();
 		entityManager.close();

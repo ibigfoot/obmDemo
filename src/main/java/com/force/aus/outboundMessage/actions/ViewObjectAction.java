@@ -25,9 +25,15 @@
  */
 package com.force.aus.outboundMessage.actions;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import javax.persistence.NoResultException;
 
+import com.force.aus.outboundMessage.comparators.ModifiedObjectComparator;
 import com.force.aus.outboundMessage.entity.AccountWrapper;
+import com.force.aus.outboundMessage.entity.ModifiedObject;
 import com.force.aus.outboundMessage.entity.ReceivedMessage;
 import com.force.aus.outboundMessage.exceptions.PartnerAPIException;
 import com.force.aus.outboundMessage.partner.PartnerWSDLService;
@@ -48,7 +54,6 @@ public class ViewObjectAction extends BaseOBMAction{
 		ReceivedMessage message = null;
 		try {
 			message = (ReceivedMessage)doSingleQuery("from ReceivedMessage where id="+messageId);
-			
 			PartnerWSDLService service = new PartnerWSDLService();
 			account = service.getAccount(objectId, message);
 		    addActionMessage("Have retrieved details of Account "+account.getAccountName()+" from the Partner API");

@@ -25,10 +25,13 @@
  */
 package com.force.aus.outboundMessage.partner;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.force.aus.outboundMessage.entity.AccountWrapper;
+import com.force.aus.outboundMessage.entity.ModifiedObject;
 import com.force.aus.outboundMessage.entity.ReceivedMessage;
 import com.force.aus.outboundMessage.exceptions.PartnerAPIException;
 import com.sforce.soap.partner.DescribeSObjectResult;
@@ -36,6 +39,7 @@ import com.sforce.soap.partner.Field;
 import com.sforce.soap.partner.GetUserInfoResult;
 import com.sforce.soap.partner.PartnerConnection;
 import com.sforce.soap.partner.QueryResult;
+import com.sforce.soap.partner.sobject.SObject;
 import com.sforce.ws.ConnectionException;
 import com.sforce.ws.ConnectorConfig;
 /**
@@ -127,8 +131,44 @@ public class PartnerWSDLService {
 			throw new PartnerAPIException("The single object query has returned more than one result");
 		}
 		wrapper.processSObject(qr.getRecords()[0]);
+		
 		return wrapper;
 	}
 
+	public void populateObjectNames(ReceivedMessage message) throws ConnectionException {
+		
+		PartnerConnection conn = getPartnerConnection(message);
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("select id, name from account where id in (");
+		int i=0;
+		for(ModifiedObject obj : message.getModifiedObjects()) {
+		
+			i++;
+			sb.append("'");
+			sb.append(obj.getObjectId());
+			sb.append("'");
+			if(i != message.getModifiedObjects().size()) 
+				sb.append(",");
+		}
+		sb.append(")");
+		logger.info("Have built query [{}]",sb.toString());
+		QueryResult result = conn.query(sb.toString());
+		
+		for(SObject sobj : result.getRecords()) {
+			
+			String name = (String)sobj.getField("Name");
+			String id = (String)sobj.getField("Id");
+			
+			logger.info("Obj [{}] name [{}]", id,name);
+			
+			for(ModifiedObject mo : message.getModifiedObjects()) {
+				if (mo.getObjectId().equalsIgnoreCase(id)) {
+					mo.setObjectName(name);
+					break;
+				}
+			}
+		}
+	}
 	
 }

@@ -89,14 +89,24 @@
 	</div>
 
 	<div>
-		Object Details
-		<hr />
-		<s:iterator value="message.modifiedObjects" var="modifiedObject">
-			<s:url action="app/showObject" includeParams="get" id="showObject">
-				<s:param name="objectId" value="#modifiedObject.objectId"/>
-			</s:url>Object ID - <s:a href="%{showObject}"><s:property value="#modifiedObject.objectId"/></s:a><br />
-
-		</s:iterator>
+		<h3>Object Details</h3>
+		<table>
+			<tr>
+				<th>Ojbect ID</th>
+				<th>Object Name</th>
+			</tr>
+			<s:iterator value="message.modifiedObjects" var="modifiedObject">
+				<tr>
+					<td>
+						<s:url action="app/showObject" includeParams="get" id="showObject">
+							<s:param name="objectId" value="#modifiedObject.objectId"/>
+						</s:url><s:a href="%{showObject}" tooltip="Show object details"><s:property value="#modifiedObject.objectId" /></s:a>
+					</td>
+					<td>
+						<s:property value="#modifiedObject.objectName"/>
+					</td>
+			</s:iterator>
+		</table>
 	</div>
 	<div>
 		<h3>Raw XML Message <span id="xmlToggle">hide/show</span></h3>

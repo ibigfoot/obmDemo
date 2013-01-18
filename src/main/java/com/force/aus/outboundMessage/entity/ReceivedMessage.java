@@ -26,6 +26,7 @@
 package com.force.aus.outboundMessage.entity;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Set;
 
@@ -120,7 +121,6 @@ public class ReceivedMessage implements Serializable {
 	public void setModifiedObjects(Set<ModifiedObject> modifiedObjects) {
 		this.modifiedObjects = modifiedObjects;
 	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -132,8 +132,6 @@ public class ReceivedMessage implements Serializable {
 		result = prime * result
 				+ ((enterpriseURL == null) ? 0 : enterpriseURL.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result
-				+ ((modifiedObjects == null) ? 0 : modifiedObjects.hashCode());
 		result = prime * result + ((orgId == null) ? 0 : orgId.hashCode());
 		result = prime * result
 				+ ((partnerURL == null) ? 0 : partnerURL.hashCode());
@@ -169,11 +167,6 @@ public class ReceivedMessage implements Serializable {
 			return false;
 		if (id != other.id)
 			return false;
-		if (modifiedObjects == null) {
-			if (other.modifiedObjects != null)
-				return false;
-		} else if (!modifiedObjects.equals(other.modifiedObjects))
-			return false;
 		if (orgId == null) {
 			if (other.orgId != null)
 				return false;
@@ -196,7 +189,5 @@ public class ReceivedMessage implements Serializable {
 			return false;
 		return true;
 	}
-
-	
 	
 }

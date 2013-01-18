@@ -34,14 +34,25 @@
 		<link href="/css/obm.css" rel="stylesheet" type="text/css" />
 		<link href="https://nav.heroku.com/images/logos/favicon.ico" rel="icon" type="image/x-icon">
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+		<script src="/js/jquery.noty.js"></script>
+		<script src="/js/layouts/top.js"></script>
+		<script src="/js/layouts/topCenter.js"></script>
+		<script src="/js/themes/default.js"></script>
 	</head>
 	<body>
 		<div id="container">
 			<tiles:insertAttribute name="header" />
 		</div>
 		<div id="mainContainer">
-			<s:actionerror/>
-			<s:actionmessage/>
+			<script type="text/javascript">
+				<s:iterator value="actionErrors" var="actionError">
+					var errorNote = noty({text: '<s:property value="#actionError"/>', type: 'error'});
+				</s:iterator>
+				<s:iterator value="actionMessages" var="actionMessage">
+					var messageNote = noty({text: '<s:property value="#actionMessage"/>', type: 'success', timeout: '3000'})
+				</s:iterator>
+			</script>
+
 			<tiles:insertAttribute name="mainContent" />
 		</div>
 		<div id="footer">
