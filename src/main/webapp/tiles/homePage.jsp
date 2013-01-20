@@ -117,7 +117,6 @@
 			$.post('/countMessages', function(data) {
 				if(initialRecordCount != data) {
 					initialRecordCount = data;
-					alert("We have "+data+" records now");
 				}
 			});
 
