@@ -30,6 +30,45 @@
 	respond, pretending you are some type of integration system.
 </p>
 
+<div id="messageOut">
+	<ul>
+		<li>
+			<ul class="heading clearfix">
+				<li>ID</li>
+				<li>OrgID</li>
+				<li>SessionID</li>
+				<li>Objects</li>
+				<li>Date Received</li>
+			</ul>
+		</li>
+		<s:iterator value="messages" var="m">
+			<li class="line">
+				<ul>
+					<li><s:property value="#m.id"/></li>
+					<li><s:property value="#m.orgId"/></li>
+					<li><s:property value="#m.sessionId"/></li>
+					<li><s:property value="#m.modifiedObjects.size"/></li>
+					<li>
+						<!-- Format date to user timezone -->
+						<script type="text/javascript">
+							var d = new Date('<s:date name="#m.dateReceived" timezone="UTC"/> UTC');
+							document.write(d);
+						</script>
+					</li>
+					<li>
+						<s:url action="app/view" includeParams="get" id="view">
+							<s:param name="messageId" value="#m.id"/>
+						</s:url><s:a href="%{view}">View OBM</s:a> <br />
+						<s:url action="app/delete" includeParams="get" id="delete">
+							<s:param name="messageId" value="#m.id"/>
+						</s:url><s:a href="%{delete}">Delete OBM</s:a>
+					</li>
+				</ul>
+			</li>
+		</s:iterator>
+	</ul>
+</div>
+
 	<s:if test="messages.size > 0">
 		<table class="obmTable">
 			<tr class="obmHeader">

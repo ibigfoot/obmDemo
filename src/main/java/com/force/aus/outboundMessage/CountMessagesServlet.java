@@ -35,7 +35,7 @@ public class CountMessagesServlet extends HttpServlet{
 		Query q = em.createQuery("select count(*) from ReceivedMessage");
 		Long rowCount = (Long)q.getSingleResult();
 		em.close();
-		logger.info("Currently there are {} ReceivedMessages in the database",rowCount);
+		//logger.info("Currently there are {} ReceivedMessages in the database",rowCount);
 		resp.getWriter().write(rowCount.toString());
 	}
 
