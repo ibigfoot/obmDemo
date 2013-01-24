@@ -135,20 +135,3 @@ body {
    height: 0; 
    clear: both;
 }
-
-#messageOut ul {
-	list-style: none;
-}
-
-.heading {
-	font-weight: bolder;
-	background-color: grey;
-	padding:10px;
-}
-
-.heading li {
-	display: block;	
-	width: 150px;
-	float: left;
-	text-align: center;
-}

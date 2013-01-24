@@ -30,96 +30,61 @@
 	respond, pretending you are some type of integration system.
 </p>
 
-<div id="messageOut">
-	<ul>
-		<li>
-			<ul class="heading clearfix">
-				<li>ID</li>
-				<li>OrgID</li>
-				<li>SessionID</li>
-				<li>Objects</li>
-				<li>Date Received</li>
-			</ul>
-		</li>
-		<s:iterator value="messages" var="m">
-			<li class="line">
-				<ul>
-					<li><s:property value="#m.id"/></li>
-					<li><s:property value="#m.orgId"/></li>
-					<li><s:property value="#m.sessionId"/></li>
-					<li><s:property value="#m.modifiedObjects.size"/></li>
-					<li>
-						<!-- Format date to user timezone -->
-						<script type="text/javascript">
-							var d = new Date('<s:date name="#m.dateReceived" timezone="UTC"/> UTC');
-							document.write(d);
-						</script>
-					</li>
-					<li>
-						<s:url action="app/view" includeParams="get" id="view">
-							<s:param name="messageId" value="#m.id"/>
-						</s:url><s:a href="%{view}">View OBM</s:a> <br />
-						<s:url action="app/delete" includeParams="get" id="delete">
-							<s:param name="messageId" value="#m.id"/>
-						</s:url><s:a href="%{delete}">Delete OBM</s:a>
-					</li>
-				</ul>
-			</li>
-		</s:iterator>
-	</ul>
-</div>
-
-	<s:if test="messages.size > 0">
-		<table class="obmTable">
-			<tr class="obmHeader">
-				<th style="width:5%">ID</th>
-				<th  style="width:20%">OrgID</th>
-				<th  style="width: 30%">SessionID</th>
-				<th style="width: 15%">Object Payload</th>
-				<th  style="width:20%">DateReceived</th>
-				<th>Actions</th>
+<s:if test="messages.size > 0">
+	<table class="obmTable">
+		<tr class="obmHeader">
+			<th style="width:5%">ID</th>
+			<th  style="width:20%">OrgID</th>
+			<th  style="width: 30%">SessionID</th>
+			<th style="width: 15%">Object Payload</th>
+			<th  style="width:20%">DateReceived</th>
+			<th>Actions</th>
+		</tr>
+		<s:iterator value="messages" var="message">
+			<tr>
+				<td class="obmCell"><s:property value="#message.id"/></td>
+				<td class="obmCell"><s:property value="#message.orgId"/></td>
+				<td class="obmCell"><s:property value="#message.sessionId"/></td>
+				<td class="obmCell"><s:property value="#message.modifiedObjects.size"/></td>
+				<td class="obmCell">
+					<!-- Format date to user timezone -->
+					<script type="text/javascript">
+						var d = new Date('<s:date name="#message.dateReceived" timezone="UTC"/> UTC');
+						document.write(d);
+					</script>
+				</td>
+				<td class="obmCell links">
+					<s:url action="app/view" includeParams="get" id="view">
+						<s:param name="messageId" value="#message.id"/>
+					</s:url><s:a href="%{view}">View OBM</s:a> <br />
+					<s:url action="app/delete" includeParams="get" id="delete">
+						<s:param name="messageId" value="#message.id"/>
+					</s:url><s:a href="%{delete}">Delete OBM</s:a>
+				</td>
 			</tr>
-			<s:iterator value="messages" var="message">
-				<tr>
-					<td class="obmCell"><s:property value="#message.id"/></td>
-					<td class="obmCell"><s:property value="#message.orgId"/></td>
-					<td class="obmCell"><s:property value="#message.sessionId"/></td>
-					<td class="obmCell"><s:property value="#message.modifiedObjects.size"/></td>
-					<td class="obmCell">
-						<!-- Format date to user timezone -->
-						<script type="text/javascript">
-							var d = new Date('<s:date name="#message.dateReceived" timezone="UTC"/> UTC');
-							document.write(d);
-						</script>
-					</td>
-					<td class="obmCell links">
-						<s:url action="app/view" includeParams="get" id="view">
-							<s:param name="messageId" value="#message.id"/>
-						</s:url><s:a href="%{view}">View OBM</s:a> <br />
-						<s:url action="app/delete" includeParams="get" id="delete">
-							<s:param name="messageId" value="#message.id"/>
-						</s:url><s:a href="%{delete}">Delete OBM</s:a>
-					</td>
-				</tr>
-			</s:iterator>
-		</table>
-	</s:if>
-	<s:if test="messages.size == 0">
-		We have no Outbound Messages stored.
-	</s:if>
-	<script type="text/javascript">
-		function formatDateToTimezone(d) {
-			var offset = d.get
-		}
-		var int=self.setInterval(function(){update()},1000);
-		var initialRecordCount = <s:property value="recordCount"/>;
-		function update() {
-			$.post('/countMessages', function(data) {
-				if(initialRecordCount != data) {
-					initialRecordCount = data;
-				}
-			});
+		</s:iterator>
+	</table>
+</s:if>
+<s:if test="messages.size == 0">
+	We have no Outbound Messages stored.
+</s:if>
+<script type="text/javascript">
+	function formatDateToTimezone(d) {
+		var offset = d.get
+	}
+	var int=self.setInterval(function(){update()},1000);
+	var initialRecordCount = <s:property value="recordCount"/>;
+	function update() {
+		$.post('/countMessages', function(data) {
+			if(initialRecordCount != data) {
+				initialRecordCount = data;
+			}
+			
+		}).error(function() {
+			window.clearInterval(int);
+			var countNote = noty({text: 'Have lost connection with the Server', type: 'error'});
+		});
 
-		}
+	}
 
-	</script>
+</script>

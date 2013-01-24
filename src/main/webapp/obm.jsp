@@ -48,38 +48,14 @@
 
 		</div>
 		<div id="mainContainer">
-			<p>
-				Welcome to the Salesforce Outbound Messaging demonstration tool. This tool is designed to allow
-				you to send an Outbound Message to this application, visually show the message and 
-				interact to manually respond, pretending you are some type of integration system.
-			</p>
-			<p><a href="instructions.jsp"/>Instructions</a> will help you setup your Salesforce Instance and show you how to use this.</p>
-			<p><a href="https://github.com/ibigfoot/ForceAPIClient" target="_blank">Code</a> can be found GitHub</p>
-			<div id="actionTable">
-				<s:iterator value="messages" var="message">
-					<s:property value="#message.id"/>
-				</s:iterator>
-			</div>
+			<p>Client - 3MVG9Y6d_Btp4xp5zu1u9ukSXppAZHihuyjQidBq9oOlT5zNqjYOTDyhsmG_DmYRAj6v2NVHwuB2y04Xx_qND</p>
+			<p>Response Type - code</p>
+			<p>redirect uri - https://pure-plateau-6292.herokuapp.com/app/callback.action</p>
+			<a href="https://login.salesforce.com/services/oauth2/authorize?response_type=code&client_id=3MVG9Y6d_Btp4xp5zu1u9ukSXppAZHihuyjQidBq9oOlT5zNqjYOTDyhsmG_DmYRAj6v2NVHwuB2y04Xx_qND&redirect_uri=https://pure-plateau-6292.herokuapp.com/app/callback.action">Login Using Salesforce OAuth</a>
 		</div>
 		<div id="footer">
 			Powered by <a href="http://www.heroku.com"><img src="images/heroku.png" alt="Heroku" height="20px" align="top"/></a>
 		</div>
 	</div>
-	<script type="text/javascript">
-		$(document).ready(function () {
-			$("#updateTableBtn").click(function() {
-				$.getJSON('/messages', function(data) {
-					
-					var items = [];
-					$.each(data, function(key,val) {
-						items.push(key+ ' | ' + val + '||');
-					});
-						
-					alert(items);
-					
-				});
-			})
-		});
-	</script>
 </body>
 </html>
