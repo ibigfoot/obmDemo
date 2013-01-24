@@ -51,7 +51,7 @@
 			<p>Client - 3MVG9Y6d_Btp4xp5zu1u9ukSXppAZHihuyjQidBq9oOlT5zNqjYOTDyhsmG_DmYRAj6v2NVHwuB2y04Xx_qND</p>
 			<p>Response Type - code</p>
 			<p>redirect uri - https://pure-plateau-6292.herokuapp.com/app/callback.action</p>
-			<a href="https://login.salesforce.com/services/oauth2/authorize?response_type=code&client_id=3MVG9Y6d_Btp4xp5zu1u9ukSXppAZHihuyjQidBq9oOlT5zNqjYOTDyhsmG_DmYRAj6v2NVHwuB2y04Xx_qND&redirect_uri=https://pure-plateau-6292.herokuapp.com/app/callback.action&scope=web refresh_token">Login Using Salesforce OAuth</a>
+			<a href="https://login.salesforce.com/services/oauth2/authorize?response_type=code&client_id=3MVG9Y6d_Btp4xp5zu1u9ukSXppAZHihuyjQidBq9oOlT5zNqjYOTDyhsmG_DmYRAj6v2NVHwuB2y04Xx_qND&redirect_uri=https://pure-plateau-6292.herokuapp.com/app/callback.action&scope=web">Login Using Salesforce OAuth</a>
 		</div>
 		<div id="footer">
 			Powered by <a href="http://www.heroku.com"><img src="images/heroku.png" alt="Heroku" height="20px" align="top"/></a>
