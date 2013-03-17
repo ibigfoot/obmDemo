@@ -33,7 +33,7 @@
 <s:else>
 	Account Details - <s:property value="account.accountName"/>
 	<hr />
-	<s:form action="updateAccount">
+	<s:form action="app/updateAccount" >
 		<table width="80%">
 			<tr>
 				<th>Field Name</th>
