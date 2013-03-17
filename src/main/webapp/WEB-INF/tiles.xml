@@ -48,5 +48,11 @@
 		<put-attribute name="mainContent" value="/tiles/object.jsp" />
 		<put-attribute name="footer" value="/tiles/footer.jsp" />
 	</definition>	
+	<definition name="oauth.result.tiles" template="/layouts/standard.jsp">
+		<put-attribute name="title" value="OAuth Callback" />
+		<put-attribute name="header" value="/tiles/header.jsp" />
+		<put-attribute name="mainContent" value="/tiles/oauthCallback.jsp" />
+		<put-attribute name="footer" value="/tiles/footer.jsp" />
+	</definition>	
 	
 </tiles-definitions>

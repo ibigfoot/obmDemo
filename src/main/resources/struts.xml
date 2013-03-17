@@ -61,6 +61,10 @@
 			class="com.force.aus.outboundMessage.actions.UpdateAccountAction" method="execute">
 			<result name="success" type="tiles">showObject.tiles</result>
 		</action>		
+		<action name="callback"
+			class="com.force.aus.outboundMessage.actions.OAuthCallbackAction" method="execute">
+			<result name="success" type="tiles">oauth.result.tiles</result>	
+		</action>
 	</package>
 
 </struts>
