@@ -44,7 +44,7 @@ public class UpdateAccountAction extends BaseOBMAction {
 	private String errorMessage;
 
 	public String doExecute() {
-		
+		logger.info("~~ account is null {}",account == null ? true : false);
 		Iterator<Field> keys = account.getValues().keySet().iterator();
 		while(keys.hasNext()) {
 			Field key = keys.next();
