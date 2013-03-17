@@ -58,6 +58,10 @@ public class UpdateAccountAction extends BaseOBMAction {
 		this.account = account;
 	}
 	
+	public AccountWrapper getAccount() {
+		return account;
+		
+	}
 	public String getErrorMessage() {
 		return errorMessage;
 	}
