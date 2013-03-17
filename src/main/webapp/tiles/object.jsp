@@ -33,22 +33,27 @@
 <s:else>
 	Account Details - <s:property value="account.accountName"/>
 	<hr />
-	<table width="80%">
-		<tr>
-			<th>Field Name</th>
-			<th>API Name</th>
-			<th>Datatype</th>
-			<th>Value</th>
-		</tr>
-		<s:iterator value="account.values" var="map" status="stat">
+	<s:form action="updateAccount">
+		<table width="80%">
 			<tr>
-				<!-- <td>Row <s:property value="#stat.index"/></td> -->
-				<td><s:property value="#map.key.label"/></td>
-				<td><s:property value="#map.key.name"/></td>
-				<td><s:property value="#map.key.type"/></td>
-				<td><input type="text" value='<s:property value="#map.value"/>'/></td>
-			</tr>	
-		</s:iterator>
-	</table>
+				<th>Field Name</th>
+				<th>API Name</th>
+				<th>Datatype</th>
+				<th>Value</th>
+			</tr>
+			<s:iterator value="account.values" var="map" status="stat">
+				<tr>
+					<!-- <td>Row <s:property value="#stat.index"/></td> -->
+					<td><s:property value="#map.key.label"/></td>
+					<td><s:property value="#map.key.name"/></td>
+					<td><s:property value="#map.key.type"/></td>
+					<td><input type="text" value='<s:property value="#map.value"/>'/></td>
+				</tr>	
+			</s:iterator>
+			<tr>
+				<td colspan="4"><s:submit /></td>
+			</tr>
+		</table>
+	</s:form>
 </s:else>
 
