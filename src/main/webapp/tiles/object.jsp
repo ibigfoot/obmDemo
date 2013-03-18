@@ -47,7 +47,7 @@
 					<td><s:property value="#map.key.label"/></td>
 					<td><s:property value="#map.key.name"/></td>
 					<td><s:property value="#map.key.type"/></td>
-					<td><s:textfield name="account.values[key].value" /></td>
+					<td><s:textfield name="account.values[%{key}].value" /></td>
 				</tr>	
 			</s:iterator>
 			<tr>
