@@ -11,7 +11,7 @@
 	<properties>
 		<java.version>1.7</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jetty.version>9.0.0.v20130308</jetty.version><!-- 7.6.0.v20120127 -->
+		<jetty.version>8.1.8.v20121106</jetty.version><!-- 7.6.0.v20120127 -->
 	</properties>
 
 	<repositories>
@@ -83,7 +83,7 @@
 		<dependency>
 			<groupId>com.geishatokyo.jetty</groupId>
 			<artifactId>jetty-nosql-memcached</artifactId>
-			<version>0.3.0</version>
+			<version>0.3.1</version>
 			<classifier>jar-with-dependencies</classifier>
 		</dependency>	
 		<!-- Logging -->
