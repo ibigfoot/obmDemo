@@ -83,12 +83,8 @@
 			<groupId>com.geishatokyo.jetty</groupId>
 			<artifactId>jetty-nosql-memcached</artifactId>
 			<version>0.3.1</version>
-		</dependency>
-<dependency>
-	<groupId>com.geishatokyo.jetty</groupId>
-	<artifactId>jetty-nosql-kvs</artifactId>
-	<version>0.3.1</version>
-</dependency>		
+			<classifier>jar-with-dependencies</classifier>
+		</dependency>	
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
