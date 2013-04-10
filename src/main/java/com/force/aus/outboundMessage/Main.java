@@ -27,6 +27,8 @@ package com.force.aus.outboundMessage;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLClassLoader;
+import java.util.Arrays;
 
 import javax.naming.NamingException;
 
@@ -68,6 +70,8 @@ public class Main {
     public static void main(String[] args) throws Exception{
     	
     	LOG = LoggerFactory.getLogger(Main.class);
+    	
+    	dumpClasspath(Main.class.getClassLoader());
     	
     	AppProperties.loadProperties();
         String webappDirLocation = "src/main/webapp/";
@@ -113,6 +117,20 @@ public class Main {
         server.start();
         server.join();   
     }
+    
+    public static void dumpClasspath(ClassLoader loader)
+    {
+        System.out.println("Classloader " + loader + ":");
+
+        if (loader instanceof URLClassLoader) {
+            URLClassLoader ucl = (URLClassLoader)loader;
+            System.out.println("\t" + Arrays.toString(ucl.getURLs()));
+        } else
+            System.out.println("\t(cannot display components as not a URLClassLoader)");
+
+        if (loader.getParent() != null)
+            dumpClasspath(loader.getParent());
+    }    
     
     private static Resource getJNDIResource() throws URISyntaxException, NamingException {
     	
