@@ -75,7 +75,7 @@ public class Main {
     public static void main(String[] args) throws Exception{
     	
     	LOG = LoggerFactory.getLogger(Main.class);
-    	
+    	dumpClasspath();
     	AppProperties.loadProperties();
         String webappDirLocation = "src/main/webapp/";
         
