@@ -61,13 +61,22 @@ public abstract class BaseOBMAction extends ActionSupport implements SessionAwar
 	
 	private static String ST = "sessionTest";
 	
-	protected Map<String, Object> session;
+	private Map<String, Object> session;
 	
 	@Override
-	public void setSession(Map<String, Object> session) {
-		this.session = session;
+	public void setSession(Map<String, Object> arg0) {
+		this.session = arg0;
+		if(session == null) {
+			logger.info("Creating a new session");
+			session = new HashMap<String,Object>();
+			session.put(ST, new Integer(0));
+		}
 		Integer count = (Integer)session.get(ST);
 		session.put(ST, ++count);
+	}
+	
+	public Map<String,Object> getSession() {
+		return session;
 	}
 
 	public String execute() {
