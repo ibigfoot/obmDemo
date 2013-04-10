@@ -34,6 +34,7 @@ import org.eclipse.jetty.nosql.memcached.MemcachedSessionIdManager;
 import org.eclipse.jetty.nosql.memcached.MemcachedSessionManager;
 import org.eclipse.jetty.plus.jndi.Resource;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.postgresql.ds.PGSimpleDataSource;
 import org.slf4j.Logger;
@@ -94,6 +95,10 @@ public class Main {
         memcachedSessionIdManager.setKeyPrefix("session:");
         server.setSessionIdManager(memcachedSessionIdManager);
         server.setAttribute("memcachedSessionIdManager", memcachedSessionIdManager);
+        
+        MemcachedSessionManager sessionManager = new MemcachedSessionManager();
+        sessionManager.setSessionIdManager(memcachedSessionIdManager);
+        root.setSessionHandler(new SessionHandler(sessionManager));
         
         root.setAttribute("obmDS", getJNDIResource());
         
