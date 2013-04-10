@@ -26,15 +26,20 @@
 package com.force.aus.outboundMessage.actions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.servlet.http.HttpSession;
 
+import org.apache.struts2.interceptor.SessionAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.force.aus.outboundMessage.listeners.EMFListener;
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 /**
  * BaseOBMAction handles common action tasks.
@@ -45,7 +50,7 @@ import com.opensymphony.xwork2.ActionSupport;
  * @author tsellers@salesforce.com
  *
  */
-public abstract class BaseOBMAction extends ActionSupport {
+public abstract class BaseOBMAction extends ActionSupport implements SessionAware {
 
 	/**
 	 * 
@@ -54,9 +59,25 @@ public abstract class BaseOBMAction extends ActionSupport {
 	protected EntityManager em;
 	protected Logger logger;
 	
+	private static String ST = "sessionTest";
+	
+	protected Map<String, Object> session;
+	
+	@Override
+	public void setSession(Map<String, Object> session) {
+		this.session = session;
+		Integer count = (Integer)session.get(ST);
+		session.put(ST, ++count);
+	}
+
 	public String execute() {
+	
+		
+		
 		logger = LoggerFactory.getLogger(this.getClass());
 		logger.info("Executing Action {}", this.getClass());
+		
+		logger.info("WE have session count {}", session.get(ST));
 		
 		em = EMFListener.createEntityManager();
 		
