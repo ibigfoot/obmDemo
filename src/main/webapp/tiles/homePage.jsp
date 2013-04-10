@@ -74,7 +74,7 @@
 	}
 	var int=self.setInterval(function(){update()},1000);
 	var initialRecordCount = <s:property value="recordCount"/>;
-	function update() {
+	/*function update() {
 		$.post('/countMessages', function(data) {
 			if(initialRecordCount != data) {
 				initialRecordCount = data;
@@ -85,6 +85,5 @@
 			var countNote = noty({text: 'Have lost connection with the Server', type: 'error'});
 		});
 
-	}
-
+	}*/
 </script>
