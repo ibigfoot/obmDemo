@@ -27,6 +27,8 @@ package com.force.aus.outboundMessage;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Date;
 import java.util.Random;
 
@@ -159,4 +161,13 @@ public class Main {
         
     }
 
+    public static void dumpClasspath() {
+    	ClassLoader cl = ClassLoader.getSystemClassLoader();
+    	LOG.info("ClassPath -------");
+    	for(URL url : ((URLClassLoader)cl).getURLs()) {
+    		LOG.info(url.toExternalForm());
+    	}
+    	LOG.info("------CLASSPATH END------");
+    }
+    
 }
