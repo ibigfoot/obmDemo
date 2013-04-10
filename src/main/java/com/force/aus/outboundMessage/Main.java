@@ -94,7 +94,7 @@ public class Main {
         // configure memcache as session manager.
         MemcachedSessionIdManager memcachedSessionIdManager = new MemcachedSessionIdManager(server);
         memcachedSessionIdManager.setServerString(System.getenv("MEMCACHIER_SERVERS"));
-        memcachedSessionIdManager.setKeyPrefix("session:");
+        //memcachedSessionIdManager.setKeyPrefix("session:");
         server.setSessionIdManager(memcachedSessionIdManager);
         server.setAttribute("memcachedSessionIdManager", memcachedSessionIdManager);
         
