@@ -33,7 +33,7 @@
 <s:if test="messages.size > 0">
 	<table class="obmTable">
 		<tr class="obmHeader">
-			<th style="width:5%">ID</th>
+			<th style="width:5%">ID</th> 
 			<th  style="width:20%">OrgID</th>
 			<th  style="width: 30%">SessionID</th>
 			<th style="width: 15%">Object Payload</th>

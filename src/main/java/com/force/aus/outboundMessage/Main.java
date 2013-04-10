@@ -27,13 +27,13 @@ package com.force.aus.outboundMessage;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLClassLoader;
-import java.util.Arrays;
+import java.util.Date;
+import java.util.Random;
 
 import javax.naming.NamingException;
 
-import org.eclipse.jetty.nosql.memcached.MemcachedSessionIdManager;
-import org.eclipse.jetty.nosql.memcached.MemcachedSessionManager;
+import org.eclipse.jetty.nosql.mongodb.MongoSessionIdManager;
+import org.eclipse.jetty.nosql.mongodb.MongoSessionManager;
 import org.eclipse.jetty.plus.jndi.Resource;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.session.SessionHandler;
@@ -41,6 +41,9 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.postgresql.ds.PGSimpleDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.mongodb.DB;
+import com.mongodb.MongoURI;
 
 /**
  * 
@@ -85,23 +88,31 @@ public class Main {
 		System.setProperty("java.naming.factory.initial","org.eclipse.jetty.jndi.InitialContextFactory");
 
         Server server = new Server(Integer.valueOf(webPort));
+        
+        MongoURI mongoURI = new MongoURI(System.getenv("MONGOHQ_URL"));
+        DB connectedDB = mongoURI.connectDB();
+        
+        if(mongoURI.getUsername() != null) {
+        	connectedDB.authenticate(mongoURI.getUsername(), mongoURI.getPassword());
+        }
+        MongoSessionIdManager idManager = new MongoSessionIdManager(server, connectedDB.getCollection("sessions"));
+        Random rand = new Random((new Date()).getTime());
+        int workerNum = 1000 + rand.nextInt(8999);
+        
+        idManager.setWorkerName(String.valueOf(workerNum));
+        server.setSessionIdManager(idManager);        
+
+        SessionHandler sessionHandler = new SessionHandler();
+        MongoSessionManager mongoMgr = new MongoSessionManager();
+        mongoMgr.setSessionIdManager(server.getSessionIdManager());
+        sessionHandler.setSessionManager(mongoMgr);
+        
         WebAppContext root = new WebAppContext();
         root.setConfigurationClasses(configClasses);
         root.setContextPath("/");
         root.setDescriptor(webappDirLocation+"/WEB-INF/web.xml");
         root.setResourceBase(webappDirLocation);
-        	
-        // configure memcache as session manager.
-        MemcachedSessionIdManager memcachedSessionIdManager = new MemcachedSessionIdManager(server);
-        memcachedSessionIdManager.setServerString(System.getenv("MEMCACHIER_SERVERS"));
-        //memcachedSessionIdManager.setKeyPrefix("session:");
-        server.setSessionIdManager(memcachedSessionIdManager);
-        server.setAttribute("memcachedSessionIdManager", memcachedSessionIdManager);
-        
-        MemcachedSessionManager sessionManager = new MemcachedSessionManager();
-        sessionManager.setSessionIdManager(memcachedSessionIdManager);
-        root.setSessionHandler(new SessionHandler(sessionManager));
-        
+        root.setSessionHandler(sessionHandler);
         root.setAttribute("obmDS", getJNDIResource());
         
         //Parent loader priority is a class loader setting that Jetty accepts.

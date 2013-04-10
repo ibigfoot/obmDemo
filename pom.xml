@@ -79,13 +79,17 @@
 			<artifactId>jetty-util</artifactId>
 			<version>${jetty.version}</version>
 		</dependency>
-		<!-- Memcache Session management -->
+		<!-- MongoDB Session Management -->
 		<dependency>
-			<groupId>com.geishatokyo.jetty</groupId>
-			<artifactId>jetty-nosql-memcached</artifactId>
-			<version>0.3.1</version>
-			<classifier>jar-with-dependencies</classifier>
-		</dependency>	
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-nosql</artifactId>
+			<version>${jetty.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>2.6.5</version>
+		</dependency>
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -103,12 +107,8 @@
 			<artifactId>accountOMWrapper</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<!--  
-		<dependency>
-			<groupId>com.force.aus.wsdl</groupId>
-			<artifactId>partnerWrapper</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>-->
+		<!-- <dependency> <groupId>com.force.aus.wsdl</groupId> <artifactId>partnerWrapper</artifactId> 
+			<version>0.0.1-SNAPSHOT</version> </dependency> -->
 		<dependency>
 			<groupId>com.force.api</groupId>
 			<artifactId>force-partner-api</artifactId>
@@ -141,7 +141,7 @@
 			<version>4.1.9.Final</version>
 		</dependency>
 
-	
+
 	</dependencies>
 	<build>
 		<plugins>
