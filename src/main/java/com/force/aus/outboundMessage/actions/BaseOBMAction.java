@@ -72,7 +72,8 @@ public abstract class BaseOBMAction extends ActionSupport implements SessionAwar
 			session.put(ST, new Integer(0));
 		}
 		Integer count = (Integer)session.get(ST);
-		session.put(ST, ++count);
+		count++;
+		session.put(ST, count);
 	}
 	
 	public Map<String,Object> getSession() {
