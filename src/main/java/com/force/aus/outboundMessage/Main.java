@@ -30,6 +30,8 @@ import java.net.URISyntaxException;
 
 import javax.naming.NamingException;
 
+import org.eclipse.jetty.nosql.memcached.MemcachedSessionIdManager;
+import org.eclipse.jetty.nosql.memcached.MemcachedSessionManager;
 import org.eclipse.jetty.plus.jndi.Resource;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
@@ -86,6 +88,13 @@ public class Main {
         root.setDescriptor(webappDirLocation+"/WEB-INF/web.xml");
         root.setResourceBase(webappDirLocation);
         	
+        // configure memcache as session manager.
+        MemcachedSessionIdManager memcachedSessionIdManager = new MemcachedSessionIdManager(server);
+        memcachedSessionIdManager.setServerString(System.getenv("MEMCACHIER_SERVERS"));
+        memcachedSessionIdManager.setKeyPrefix("session:");
+        server.setSessionIdManager(memcachedSessionIdManager);
+        server.setAttribute("memcachedSessionIdManager", memcachedSessionIdManager);
+        
         root.setAttribute("obmDS", getJNDIResource());
         
         //Parent loader priority is a class loader setting that Jetty accepts.

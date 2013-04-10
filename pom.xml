@@ -78,7 +78,12 @@
 			<artifactId>jetty-util</artifactId>
 			<version>7.6.8.v20121106</version>
 		</dependency>
-
+		<!-- Memcache Session management -->
+		<dependency>
+			<groupId>com.geishatokyo.jetty</groupId>
+			<artifactId>jetty-nosql-memcached</artifactId>
+			<version>0.3.1</version>
+		</dependency>
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
