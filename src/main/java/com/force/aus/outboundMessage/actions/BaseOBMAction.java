@@ -71,8 +71,9 @@ public abstract class BaseOBMAction extends ActionSupport implements SessionAwar
 			logger.info("Creating a new session");
 			session = new HashMap<String,Object>();
 		}
-		session.put(ST, new Integer(0));
 		Integer count = (Integer)session.get(ST);
+		if(count == null)
+			count = new Integer(0);
 		count++;
 		session.put(ST, count);
 	}
