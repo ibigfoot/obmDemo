@@ -79,7 +79,7 @@
 			<artifactId>jetty-util</artifactId>
 			<version>${jetty.version}</version>
 		</dependency>
-		<!-- MongoDB Session Management -->
+		<!-- MongoDB Session Management 
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-nosql</artifactId>
@@ -89,6 +89,12 @@
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongo-java-driver</artifactId>
 			<version>2.6.5</version>
+		</dependency>-->
+		<dependency>
+			<groupId>com.geishatokyo.jetty</groupId>
+			<artifactId>jetty-nosql-memcached</artifactId>
+			<version>0.3.1</version>
+			<classifier>jar-with-dependencies</classifier>
 		</dependency>
 		<!-- Logging -->
 		<dependency>
