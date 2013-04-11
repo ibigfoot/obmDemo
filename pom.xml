@@ -94,7 +94,6 @@
 			<groupId>com.geishatokyo.jetty</groupId>
 			<artifactId>jetty-nosql-memcached</artifactId>
 			<version>0.3.1</version>
-			<classifier>jar-with-dependencies</classifier>
 		</dependency>
 		<!-- Logging -->
 		<dependency>
