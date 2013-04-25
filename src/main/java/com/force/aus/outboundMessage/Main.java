@@ -29,16 +29,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Date;
-import java.util.Random;
 
 import javax.naming.NamingException;
 
 import org.eclipse.jetty.nosql.memcached.MemcachedSessionIdManager;
 import org.eclipse.jetty.nosql.memcached.MemcachedSessionManager;
 import org.eclipse.jetty.nosql.memcached.spymemcached.HerokuSpyMemcachedClientFactory;
-import org.eclipse.jetty.nosql.mongodb.MongoSessionIdManager;
-import org.eclipse.jetty.nosql.mongodb.MongoSessionManager;
 import org.eclipse.jetty.plus.jndi.Resource;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.session.SessionHandler;
@@ -46,9 +42,6 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.postgresql.ds.PGSimpleDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.mongodb.DB;
-import com.mongodb.MongoURI;
 
 /**
  * 
