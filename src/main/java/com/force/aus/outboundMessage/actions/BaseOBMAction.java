@@ -25,21 +25,17 @@
  */
 package com.force.aus.outboundMessage.actions;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.interceptor.SessionAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.force.aus.outboundMessage.listeners.EMFListener;
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 /**
  * BaseOBMAction handles common action tasks.
